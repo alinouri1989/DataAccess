@@ -4,8 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>Seyed Ali Nouri</Authors>
-    <Product>SAN.CachableRepository</Product>
-    <PackageId>SAN.CachableRepository</PackageId>
+    <Product>San.CachableRepository</Product>
+    <PackageId>San.CachableRepository</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

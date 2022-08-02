@@ -5,8 +5,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>Seyed Ali Nouri</Authors>
-    <Product>SAN.Common.ExtensionMethods</Product>
-    <PackageId>SAN.Common.ExtensionMethods</PackageId>
+    <Product>San.Common.ExtensionMethods</Product>
+    <PackageId>San.Common.ExtensionMethods</PackageId>
   </PropertyGroup>
 </Project>
   

@@ -5,8 +5,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>Seyed Ali Nouri</Authors>
-    <Product>SAN.Common</Product>
-    <PackageId>SAN.Common</PackageId>
+    <Product>San.Common.Security</Product>
+    <PackageId>San.Common.Security</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
