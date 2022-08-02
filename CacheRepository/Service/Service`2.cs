@@ -1,10 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: CacheRepository.Service.Service`2
-// Assembly: DataAccess, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 6804894C-F989-4432-B8EA-6F3F70ACE424
-// Assembly location: C:\Users\sa.nori\AppData\Local\Temp\Riqygac\68676b643f\lib\net5.0\DataAccess.dll
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Repository;
 using System;
 using System.Linq;

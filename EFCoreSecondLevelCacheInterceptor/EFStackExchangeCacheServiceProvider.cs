@@ -1,10 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: EFCoreSecondLevelCacheInterceptor.EFStackExchangeCacheServiceProvider
-// Assembly: DataAccess, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 6804894C-F989-4432-B8EA-6F3F70ACE424
-// Assembly location: C:\Users\sa.nori\AppData\Local\Temp\Riqygac\68676b643f\lib\net5.0\DataAccess.dll
-
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
@@ -15,13 +9,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
-#nullable enable
 namespace EFCoreSecondLevelCacheInterceptor
 {
     public class EFStackExchangeCacheServiceProvider : IEFCacheServiceProvider
     {
         private readonly
-#nullable disable
         IReaderWriterLockProvider _readerWriterLockProvider;
         private readonly IRedisCacheClient _redisCacheClient;
         private readonly EFCoreSecondLevelCacheSettings _cacheSettings;
