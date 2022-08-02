@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace San.CoreCommon.Constants
 {
-  public sealed class PgwStatus
+  public sealed class PaymentStatus
   {
     [Description("عملیات موفق")]
     public const short Successful = 0;
@@ -659,7 +659,7 @@ namespace San.CoreCommon.Constants
 
     public static bool IsSwitchOrDbConnectionError(short status) => status == (short) -500 || status == (short) -501 || status == (short) -1000 || status == (short) -1001 || status == (short) -1002 || status > (short) 0 || status == (short) -1 || status == (short) -1521 || status == (short) -1522 || status == (short) -1523 || status == (short) -1516;
 
-    public static string GetDescription(short value) => AttributeHelper.GetConstFieldAttributeValue<PgwStatus, string, DescriptionAttribute>(((IEnumerable<FieldInfo>) typeof (PgwStatus).GetFields(BindingFlags.Static | BindingFlags.Public)).FirstOrDefault<FieldInfo>((Func<FieldInfo, bool>) (prop => (int) (ushort) prop.GetValue((object) null) == (int) value)).Name, (Func<DescriptionAttribute, string>) (y => y.Description));
+    public static string GetDescription(short value) => AttributeHelper.GetConstFieldAttributeValue<PaymentStatus, string, DescriptionAttribute>(((IEnumerable<FieldInfo>) typeof (PaymentStatus).GetFields(BindingFlags.Static | BindingFlags.Public)).FirstOrDefault<FieldInfo>((Func<FieldInfo, bool>) (prop => (int) (ushort) prop.GetValue((object) null) == (int) value)).Name, (Func<DescriptionAttribute, string>) (y => y.Description));
 
     public sealed class OfflineMultiplexed
     {
