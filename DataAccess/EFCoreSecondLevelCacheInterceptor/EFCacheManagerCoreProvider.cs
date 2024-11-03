@@ -1,6 +1,6 @@
+using CacheManager.Core;
 using System;
 using System.Collections.Generic;
-using CacheManager.Core;
 
 namespace EFCoreSecondLevelCacheInterceptor
 {
@@ -132,7 +132,7 @@ namespace EFCoreSecondLevelCacheInterceptor
             });
         }
 
-        private void clearDependencyValues(HashSet<string>? dependencyKeys)
+        private void clearDependencyValues(HashSet<string> dependencyKeys)
         {
             if (dependencyKeys is null)
             {
@@ -146,8 +146,8 @@ namespace EFCoreSecondLevelCacheInterceptor
         }
 
         private static bool areRootCacheKeysExpired(
-                EFCachedData? cachedValue,
-                HashSet<string>? dependencyKeys)
+                EFCachedData cachedValue,
+                HashSet<string> dependencyKeys)
             => cachedValue is not null && dependencyKeys is null;
     }
 }

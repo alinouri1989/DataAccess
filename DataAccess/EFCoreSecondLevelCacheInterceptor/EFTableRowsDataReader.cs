@@ -200,7 +200,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         /// Reads a stream of bytes from the specified column offset into the buffer an array starting at the given buffer offset.
         /// </summary>
-        public override long GetBytes(int ordinal, long dataOffset, byte[]? buffer, int bufferOffset, int length) => 0L;
+        public override long GetBytes(int ordinal, long dataOffset, byte[] buffer, int bufferOffset, int length) => 0L;
 
         /// <summary>
         /// Gets the value of the specified column as a single character.
@@ -235,7 +235,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         /// Reads a stream of characters from the specified column offset into the buffer as an array starting at the given buffer offset.
         /// </summary>
-        public override long GetChars(int ordinal, long dataOffset, char[]? buffer, int bufferOffset, int length) => 0L;
+        public override long GetChars(int ordinal, long dataOffset, char[] buffer, int bufferOffset, int length) => 0L;
 
         /// <summary>
         /// Gets the value of the specified column as a DateTime object.
@@ -355,11 +355,11 @@ namespace EFCoreSecondLevelCacheInterceptor
                 var g = value.ToString();
                 return string.IsNullOrWhiteSpace(g) ? Guid.NewGuid() : new Guid(g);
             }
-            else if(valueType == typeof(byte[]))
+            else if (valueType == typeof(byte[]))
             {
-                return  new Guid((byte[])value);
+                return new Guid((byte[])value);
             }
-			
+
             return (Guid)value;
         }
 
@@ -547,7 +547,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         {
             return type == typeof(uint) || type == typeof(int) ||
                    type == typeof(ulong) || type == typeof(long) ||
-                   type == typeof(short) || type == typeof(byte) ||  type == typeof(char);
+                   type == typeof(short) || type == typeof(byte) || type == typeof(char);
         }
 
         /// <summary>
@@ -568,6 +568,6 @@ namespace EFCoreSecondLevelCacheInterceptor
             return IsNull(value);
         }
 
-	    private static bool IsNull(object? value) => value is null || value is DBNull;
+        private static bool IsNull(object value) => value is null || value is DBNull;
     }
 }

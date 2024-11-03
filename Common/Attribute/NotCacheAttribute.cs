@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace San.CoreCommon.Attribute
+﻿namespace System
 {
-  [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-  public class NotCacheAttribute : FlagsAttribute
-  {
-  }
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    public class NotCacheAttribute : FlagsAttribute
+    {
+    }
 }

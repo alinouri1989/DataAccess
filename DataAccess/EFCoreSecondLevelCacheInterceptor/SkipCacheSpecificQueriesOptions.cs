@@ -11,17 +11,17 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         /// Given entity types to cache
         /// </summary>
-        public IList<Type>? EntityTypes { get; }
+        public IList<Type> EntityTypes { get; }
 
         /// <summary>
         /// Given table names to cache
         /// </summary>
-        public IEnumerable<string>? TableNames { set; get; }
+        public IEnumerable<string> TableNames { set; get; }
 
         /// <summary>
         /// CacheAllQueries Options
         /// </summary>
-        public SkipCacheSpecificQueriesOptions(IList<Type>? entityTypes)
+        public SkipCacheSpecificQueriesOptions(IList<Type> entityTypes)
         {
             EntityTypes = entityTypes;
         }

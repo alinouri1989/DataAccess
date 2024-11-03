@@ -12,7 +12,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         ///     Determines if a collection contains an item which ends with the given value
         /// </summary>
-        public static bool EndsWith(this IEnumerable<string>? collection, string? value,
+        public static bool EndsWith(this IEnumerable<string> collection, string value,
             StringComparison stringComparison)
         {
             if (string.IsNullOrEmpty(value))
@@ -26,7 +26,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         ///     Determines if a collection contains an item which starts with the given value
         /// </summary>
-        public static bool StartsWith(this IEnumerable<string>? collection, string? value,
+        public static bool StartsWith(this IEnumerable<string> collection, string value,
             StringComparison stringComparison)
         {
             if (string.IsNullOrEmpty(value))
@@ -40,7 +40,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         ///     Determines if a collection exclusively contains every item in the given collection
         /// </summary>
-        public static bool ContainsEvery(this IEnumerable<string>? source, IEnumerable<string>? collection,
+        public static bool ContainsEvery(this IEnumerable<string> source, IEnumerable<string> collection,
             StringComparer stringComparison)
         {
             if (source is null || collection is null)
@@ -55,7 +55,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         ///     Determines if a collection contains items only in the given collection
         /// </summary>
-        public static bool ContainsOnly(this IEnumerable<string>? source, IEnumerable<string>? collection,
+        public static bool ContainsOnly(this IEnumerable<string> source, IEnumerable<string> collection,
             StringComparer stringComparison)
         {
             if (source is null || collection is null)

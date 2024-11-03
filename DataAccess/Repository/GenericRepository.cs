@@ -148,11 +148,11 @@ namespace Repository
         {
             try
             {
-                return this.dbSet.FromSqlRaw<TEntity>(sqlQuery, parametrs);
+                return dbSet.FromSqlRaw(sqlQuery, parametrs);
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception("error on ExecuteReader on generic repository", ex);
             }
         }
 

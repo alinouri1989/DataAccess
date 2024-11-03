@@ -7,9 +7,12 @@
     <Product>San.CachableRepository</Product>
     <PackageId>San.CachableRepository</PackageId>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.8</Version>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    
     <PackageReference Include="AsyncKeyedLock" Version="7.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
@@ -19,13 +22,15 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.10" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
-    <PackageReference Include="StackExchange.Redis.Extensions.Core" Version="7.1.1" />
-    <PackageReference Include="StackExchange.Redis" Version="2.2.50" />
+    <PackageReference Include="StackExchange.Redis.Extensions" Version="1.0.1" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
     <PackageReference Include="Quartz" Version="3.13.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageReference Include="CacheManager.Core" Version="1.2.0" />
     
     <PackageReference Include="EasyCaching.Core" Version="1.9.2" />
+    
+    <PackageReference Include="StackExchange.Redis.Extensions.Core" Version="10.2.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
       
@@ -33,5 +38,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 </Project>

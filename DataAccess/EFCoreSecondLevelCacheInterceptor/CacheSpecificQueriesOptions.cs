@@ -11,7 +11,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         ///     CacheAllQueries Options
         /// </summary>
-        public CacheSpecificQueriesOptions(IList<Type>? entityTypes)
+        public CacheSpecificQueriesOptions(IList<Type> entityTypes)
         {
             EntityTypes = entityTypes;
         }
@@ -19,7 +19,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         ///     Given entity types to cache
         /// </summary>
-        public IList<Type>? EntityTypes { get; }
+        public IList<Type> EntityTypes { get; }
 
         /// <summary>
         ///     How should we determine which tables should be cached?
@@ -34,6 +34,6 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         ///     Given table names to cache
         /// </summary>
-        public IEnumerable<string>? TableNames { set; get; }
+        public IEnumerable<string> TableNames { set; get; }
     }
 }

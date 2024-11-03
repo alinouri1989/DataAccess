@@ -1,10 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections;
 using System.Data.Common;
 using System.Globalization;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace EFCoreSecondLevelCacheInterceptor
 {
@@ -81,7 +81,7 @@ namespace EFCoreSecondLevelCacheInterceptor
 
             cacheKey.AppendLine("ConnectionString").Append('=').Append(command.Connection?.ConnectionString);
 
-            foreach (DbParameter? parameter in command.Parameters)
+            foreach (DbParameter parameter in command.Parameters)
             {
                 if (parameter == null)
                 {
@@ -100,7 +100,7 @@ namespace EFCoreSecondLevelCacheInterceptor
             return cacheKey.ToString().Trim();
         }
 
-        private static string? getParameterValue(DbParameter parameter)
+        private static string getParameterValue(DbParameter parameter)
         {
             return parameter.Value switch
             {

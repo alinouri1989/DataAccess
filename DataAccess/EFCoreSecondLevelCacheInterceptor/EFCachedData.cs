@@ -14,7 +14,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// DbDataReader's result.
         /// </summary>
         [DataMember]
-        public EFTableRows? TableRows { get; set; }
+        public EFTableRows TableRows { get; set; }
 
         /// <summary>
         /// DbDataReader's NonQuery result.
@@ -26,7 +26,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// DbDataReader's Scalar result.
         /// </summary>
         [DataMember]
-        public object? Scalar { get; set; }
+        public object Scalar { get; set; }
 
         /// <summary>
         /// Is result of the query null?

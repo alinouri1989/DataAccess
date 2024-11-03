@@ -1,9 +1,9 @@
-using System;
-using System.Data.Common;
-using System.Globalization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
+using System;
+using System.Data.Common;
+using System.Globalization;
 
 namespace EFCoreSecondLevelCacheInterceptor
 {
@@ -50,17 +50,11 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         /// Reads data from cache or cache it and then returns the result
         /// </summary>
-        public T ProcessExecutedCommands<T>(DbCommand command, DbContext? context, T result)
+        public T ProcessExecutedCommands<T>(DbCommand command, DbContext context, T result)
         {
-            if (command == null)
-            {
-                throw new ArgumentNullException(nameof(command));
-            }
+            ArgumentNullException.ThrowIfNull(command);
 
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            ArgumentNullException.ThrowIfNull(context);
 
             if (result is EFTableRowsDataReader rowsReader)
             {
@@ -121,7 +115,7 @@ namespace EFCoreSecondLevelCacheInterceptor
             return result;
         }
 
-        private EFCachePolicy? getCachePolicy(DbContext context, string commandText)
+        private EFCachePolicy getCachePolicy(DbContext context, string commandText)
         {
             var allEntityTypes = _sqlCommandsProcessor.GetAllTableNames(context);
             return _cachePolicyParser.GetEFCachePolicy(commandText, allEntityTypes);
@@ -140,7 +134,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         /// Reads command's data from the cache, if any.
         /// </summary>
-        public T ProcessExecutingCommands<T>(DbCommand command, DbContext? context, T result)
+        public T ProcessExecutingCommands<T>(DbCommand command, DbContext context, T result)
         {
             if (command == null)
             {

@@ -10,7 +10,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         /// Converts the `commandText` to an instance of `EFCachePolicy`
         /// </summary>
-        EFCachePolicy? GetEFCachePolicy(string commandText, IList<TableEntityInfo> allEntityTypes);
+        EFCachePolicy GetEFCachePolicy(string commandText, IList<TableEntityInfo> allEntityTypes);
 
         /// <summary>
         /// Does `commandText` contain EFCachePolicyTagPrefix?

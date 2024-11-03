@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace San.CoreCommon.Attribute
+﻿namespace System
 {
-  [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-  public class ScopedServiceAttribute : FlagsAttribute
-  {
-  }
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    public class ScopedServiceAttribute : FlagsAttribute
+    {
+    }
 }

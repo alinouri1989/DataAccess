@@ -83,7 +83,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         /// Returns a DataTable that describes the column metadata of the SqlDataReader.
         /// </summary>
-        public override DataTable? GetSchemaTable() => _dbReader.GetSchemaTable();
+        public override DataTable GetSchemaTable() => _dbReader.GetSchemaTable();
 
         /// <summary>
         /// Returns GetValue(GetOrdinal(name))
@@ -108,7 +108,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         /// Reads a stream of bytes from the specified column offset into the buffer an array starting at the given buffer offset.
         /// </summary>
-        public override long GetBytes(int ordinal, long dataOffset, byte[]? buffer, int bufferOffset, int length) => 0L;
+        public override long GetBytes(int ordinal, long dataOffset, byte[] buffer, int bufferOffset, int length) => 0L;
 
         /// <summary>
         /// Gets the value of the specified column as a single character.
@@ -118,7 +118,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         /// Reads a stream of characters from the specified column offset into the buffer as an array starting at the given buffer offset.
         /// </summary>
-        public override long GetChars(int ordinal, long dataOffset, char[]? buffer, int bufferOffset, int length) => 0L;
+        public override long GetChars(int ordinal, long dataOffset, char[] buffer, int bufferOffset, int length) => 0L;
 
         /// <summary>
         /// Gets the value of the specified column as a DateTime object.

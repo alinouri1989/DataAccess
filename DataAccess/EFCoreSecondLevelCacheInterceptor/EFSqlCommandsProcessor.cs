@@ -1,10 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreSecondLevelCacheInterceptor
 {
@@ -129,7 +129,7 @@ namespace EFCoreSecondLevelCacheInterceptor
             return tableNames;
         }
 
-        private static string? getTableName(object entityType)
+        private static string getTableName(object entityType)
         {
             return GetTableNameMethodInfo.Invoke(null, new[] { entityType }) as string;
         }

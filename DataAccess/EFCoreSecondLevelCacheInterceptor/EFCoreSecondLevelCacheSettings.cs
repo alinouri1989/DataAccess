@@ -57,16 +57,16 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         /// Here you can decide based on the correct executing SQL command, should we cache its result or not?
         /// </summary>
-        public Predicate<string>? SkipCachingCommands { set; get; }
+        public Predicate<string> SkipCachingCommands { set; get; }
 
         /// <summary>
         /// Here you can decide based on the correct executing SQL command, should we invalidate the cache or not?
         /// </summary>
-        public Predicate<string>? SkipCacheInvalidationCommands { set; get; }
+        public Predicate<string> SkipCacheInvalidationCommands { set; get; }
 
         /// <summary>
         /// Here you can decide based on the correct executing result, should we cache this result or not?
         /// </summary>
-        public Predicate<(string CommandText, object Value)>? SkipCachingResults { set; get; }
+        public Predicate<(string CommandText, object Value)> SkipCachingResults { set; get; }
     }
 }

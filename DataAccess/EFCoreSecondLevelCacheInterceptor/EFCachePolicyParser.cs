@@ -1,8 +1,8 @@
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Microsoft.Extensions.Options;
 
 namespace EFCoreSecondLevelCacheInterceptor
 {
@@ -104,7 +104,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         ///     Converts the `commandText` to an instance of `EFCachePolicy`
         /// </summary>
-        public EFCachePolicy? GetEFCachePolicy(string commandText, IList<TableEntityInfo> allEntityTypes)
+        public EFCachePolicy GetEFCachePolicy(string commandText, IList<TableEntityInfo> allEntityTypes)
         {
             if (commandText == null)
             {
@@ -144,7 +144,7 @@ namespace EFCoreSecondLevelCacheInterceptor
             return result;
         }
 
-        private EFCachePolicy? getSpecificGlobalPolicy(string commandText, IList<TableEntityInfo> allEntityTypes)
+        private EFCachePolicy getSpecificGlobalPolicy(string commandText, IList<TableEntityInfo> allEntityTypes)
         {
             var options = _cacheSettings.CacheSpecificQueriesOptions;
             if (options?.IsActive != true
@@ -211,7 +211,7 @@ namespace EFCoreSecondLevelCacheInterceptor
 
                     break;
                 case TableTypeComparison.ContainsOnly:
-                    if(queryEntityTypes.All(x => options.EntityTypes.Contains(x)))
+                    if (queryEntityTypes.All(x => options.EntityTypes.Contains(x)))
                     {
                         return true;
                     }
@@ -244,7 +244,7 @@ namespace EFCoreSecondLevelCacheInterceptor
             {
                 return false;
             }
-			
+
             switch (options.TableNameComparison)
             {
                 case TableNameComparison.Contains:
@@ -303,7 +303,7 @@ namespace EFCoreSecondLevelCacheInterceptor
 
                     break;
                 case TableNameComparison.ContainsOnly:
-                    if(commandTableNames.ContainsOnly(options.TableNames, StringComparer.OrdinalIgnoreCase))
+                    if (commandTableNames.ContainsOnly(options.TableNames, StringComparer.OrdinalIgnoreCase))
                     {
                         return true;
                     }
@@ -321,7 +321,7 @@ namespace EFCoreSecondLevelCacheInterceptor
             return false;
         }
 
-        private EFCachePolicy? getSkippedGlobalPolicy(string commandText, IList<TableEntityInfo> allEntityTypes)
+        private EFCachePolicy getSkippedGlobalPolicy(string commandText, IList<TableEntityInfo> allEntityTypes)
         {
             var options = _cacheSettings.SkipCacheSpecificQueriesOptions;
             if (options?.IsActive != true
@@ -356,7 +356,7 @@ namespace EFCoreSecondLevelCacheInterceptor
                 : null;
         }
 
-        private EFCachePolicy? getGlobalPolicy(string commandText)
+        private EFCachePolicy getGlobalPolicy(string commandText)
         {
             var cacheAllQueriesOptions = _cacheSettings.CacheAllQueriesOptions;
             return cacheAllQueriesOptions.IsActive
@@ -367,7 +367,7 @@ namespace EFCoreSecondLevelCacheInterceptor
                 : null;
         }
 
-        private EFCachePolicy? getParsedPolicy(string commandText)
+        private EFCachePolicy getParsedPolicy(string commandText)
         {
             if (!HasEFCachePolicy(commandText))
             {

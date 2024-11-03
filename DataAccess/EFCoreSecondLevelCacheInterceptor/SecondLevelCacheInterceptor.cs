@@ -165,10 +165,10 @@ public class SecondLevelCacheInterceptor : DbCommandInterceptor
     /// <summary>
     ///     Called immediately after EF calls System.Data.Common.DbCommand.ExecuteScalar.
     /// </summary>
-    public override object? ScalarExecuted(
+    public override object ScalarExecuted(
         DbCommand command,
         CommandExecutedEventData eventData,
-        object? result)
+        object result)
     {
         using var @lock = _lockProvider.Lock();
         return _processor.ProcessExecutedCommands(command, eventData?.Context, result);
@@ -178,10 +178,10 @@ public class SecondLevelCacheInterceptor : DbCommandInterceptor
     ///     Called immediately after EF calls System.Data.Common.DbCommand.ExecuteScalarAsync.
     /// </summary>
 #if NET8_0 || NET7_0 || NET6_0 || NET5_0 || NETSTANDARD2_1
-    public override async ValueTask<object?> ScalarExecutedAsync(
+    public override async ValueTask<object> ScalarExecutedAsync(
         DbCommand command,
         CommandExecutedEventData eventData,
-        object? result,
+        object result,
         CancellationToken cancellationToken = default)
 #else
         public override async Task<object> ScalarExecutedAsync(
