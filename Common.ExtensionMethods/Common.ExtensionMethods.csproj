@@ -7,7 +7,7 @@
     <Authors>Seyed Ali Nouri</Authors>
     <Product>San.Common.ExtensionMethods</Product>
     <PackageId>San.Common.ExtensionMethods</PackageId>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
