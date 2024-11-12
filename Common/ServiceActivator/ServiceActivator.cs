@@ -3,16 +3,42 @@ using System;
 
 namespace San.CoreCommon.ServiceActivator
 {
-  public class ServiceActivator
-  {
-    internal static IServiceProvider _serviceProvider;
-
-    public static void Configure(IServiceProvider serviceProvider) => San.CoreCommon.ServiceActivator.ServiceActivator._serviceProvider = serviceProvider;
-
-    public static IServiceScope GetScope(IServiceProvider serviceProvider = null)
+    public static class ServiceActivator
     {
-      IServiceProvider provider = serviceProvider ?? San.CoreCommon.ServiceActivator.ServiceActivator._serviceProvider;
-      return provider != null ? provider.GetRequiredService<IServiceScopeFactory>().CreateScope() : (IServiceScope) null;
+        private static IServiceProvider _serviceProvider;
+
+        // Configure the static service provider  
+        public static void Configure(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        }
+
+        // Resolve a service directly from the service provider  
+        public static T ResolveService<T>()
+        {
+            return _serviceProvider.GetRequiredService<T>();
+        }
+
+        // Optionally, for resolving services without a specific type  
+        public static object ResolveService(Type serviceType)
+        {
+            return _serviceProvider.GetRequiredService(serviceType);
+        }
+
+        // Create a Scope from the existing Service Provider  
+        public static IServiceScope CreateScope()
+        {
+            // Return a new scope from the existing service provider without creating a new instance  
+            return _serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
+        }
+
+        // Resolve a service within a new scope  
+        public static T GetService<T>(IServiceProvider serviceProvider = null)
+        {
+            using (var scope = CreateScope())
+            {
+                return scope.ServiceProvider.GetRequiredService<T>();
+            }
+        }
     }
-  }
 }
