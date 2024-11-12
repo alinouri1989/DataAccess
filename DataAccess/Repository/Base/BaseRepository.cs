@@ -29,7 +29,7 @@ namespace Repository.Base
         {
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<TEntity>();
-            _httpContextAccessor = ServiceActivator.GetScope().ServiceProvider.GetRequiredService<IHttpContextAccessor>();
+            _httpContextAccessor = ServiceActivator.CreateScope().ServiceProvider.GetRequiredService<IHttpContextAccessor>();
         }
         #endregion
 
