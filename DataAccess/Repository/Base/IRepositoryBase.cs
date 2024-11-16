@@ -1,4 +1,5 @@
 ﻿using Common.BaseDto;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Repository.Base
 {
-    public interface IRepositoryBase<TEntity> : IBaseEf
+    public interface IRepositoryBase<TEntity, TContext>
                                where TEntity : class
+                               where TContext : DbContext
     {
 
         #region SqlQuery

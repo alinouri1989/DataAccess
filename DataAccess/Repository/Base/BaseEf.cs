@@ -1,17 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using San.CoreCommon.ServiceActivator;
 using System.Threading.Tasks;
 
 namespace Repository.Base
 {
-    public class BaseEf : IBaseEf
+    public class BaseEf<TContext> : IBaseEf
+        where TContext : DbContext
     {
         private IDbContextTransaction _transaction;
-        private readonly DbContext _dbContext;
+        private readonly TContext _dbContext;
 
-        public BaseEf(DbContext dbContext)
+        public BaseEf()
         {
-            _dbContext = dbContext;
+            _dbContext = ServiceActivator.ResolveService<TContext>();
         }
         public async Task BeginTransaction() => _transaction = await _dbContext.Database.BeginTransactionAsync();
         public async Task CommitTransaction() => await _transaction.CommitAsync();

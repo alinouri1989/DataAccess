@@ -15,19 +15,18 @@ using System.Threading.Tasks;
 
 namespace Repository.Base
 {
-    public class RepositoryBase<TEntity> : BaseEf, IRepositoryBase<TEntity> where TEntity : class
+    public class RepositoryBase<TEntity, TContext> : BaseEf<TContext>, IRepositoryBase<TEntity, TContext> where TEntity : class where TContext : DbContext
     {
-
         #region Fields
-        private readonly DbContext _dbContext;
+        private readonly TContext _dbContext;
         private readonly DbSet<TEntity> _dbSet;
         private readonly IHttpContextAccessor _httpContextAccessor;
         #endregion
 
         #region Ctor
-        public RepositoryBase(DbContext dbContext) : base(dbContext)
+        public RepositoryBase()
         {
-            _dbContext = dbContext;
+            _dbContext = ServiceActivator.ResolveService<TContext>();
             _dbSet = _dbContext.Set<TEntity>();
             _httpContextAccessor = ServiceActivator.CreateScope().ServiceProvider.GetRequiredService<IHttpContextAccessor>();
         }

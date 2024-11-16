@@ -7,7 +7,7 @@
     <Authors>Seyed Ali Nouri</Authors>
     <Product>San.Common.Security</Product>
     <PackageId>San.Common.Security</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.2.2</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
