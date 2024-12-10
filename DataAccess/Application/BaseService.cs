@@ -11,12 +11,13 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
+    public class BaseService<TEntity, TContext> : IBaseService<TEntity, TContext> where TEntity : class
+                                                                                  where TContext : DbContext
     {
-        public IRepositoryBase<TEntity, DbContext> RepositoryBase { get; }
+        public IRepositoryBase<TEntity, TContext> RepositoryBase { get; }
         public IMapper Mapper { get; }
 
-        public BaseService(IRepositoryBase<TEntity, DbContext> repositoryBase,
+        public BaseService(IRepositoryBase<TEntity, TContext> repositoryBase,
             DbContext dbContext,
             IMapper mapper)
         {

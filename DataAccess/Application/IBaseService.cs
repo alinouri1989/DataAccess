@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public interface IBaseService<TEntity> where TEntity : class
+    public interface IBaseService<TEntity, TContext> where TEntity : class
     {
 
         Task<List<TDto>> GetAll<TDto>();

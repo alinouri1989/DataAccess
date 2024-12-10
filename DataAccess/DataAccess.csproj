@@ -7,7 +7,7 @@
     <Product>San.CachableRepository</Product>
     <PackageId>San.CachableRepository</PackageId>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>2.0.0</Version>
+    <Version>2.0.1</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
@@ -45,7 +45,6 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common.Security\Common.Security.csproj" />
     <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 </Project>
