@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 
-namespace Repository.Cache
+namespace DataAccess.Repository.Cache
 {
     public class CachProvider : CachProviderConfig, IEFCacheServiceProvider
     {

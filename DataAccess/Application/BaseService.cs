@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Common.BaseDto;
+using DataAccess.Repository.Base;
 using Microsoft.EntityFrameworkCore;
-using Repository.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Common
+namespace DataAccess.Application.Base
 {
     public class BaseService<TEntity, TContext> : IBaseService<TEntity, TContext>
         where TEntity : class

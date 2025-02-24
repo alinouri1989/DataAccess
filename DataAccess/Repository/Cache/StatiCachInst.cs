@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Repository.Cache
+namespace DataAccess.Repository.Cache
 {
   public static class StatiCachInst
   {

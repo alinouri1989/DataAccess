@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Repository.Cache
+namespace DataAccess.Repository.Cache
 {
     public static class StaticCacheProvider
     {

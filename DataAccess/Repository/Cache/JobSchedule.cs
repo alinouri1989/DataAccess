@@ -1,7 +1,7 @@
 ﻿using Quartz;
 using System;
 
-namespace Repository.Cache
+namespace DataAccess.Repository.Cache
 {
   public class JobSchedule
   {

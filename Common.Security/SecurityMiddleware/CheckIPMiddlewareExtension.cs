@@ -1,22 +1,22 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using System.Collections.Generic;
 
-namespace San.CoreCommon.SecurityMiddleware
+namespace Common.Security.SecurityMiddleware
 {
-  public static class CheckIPMiddlewareExtension
-  {
-    public static IApplicationBuilder UseCheckIP(
-      this IApplicationBuilder app,
-      List<string> ips)
+    public static class CheckIPMiddlewareExtension
     {
-      return app.UseMiddleware<CheckIPMiddleware>((object) ips);
-    }
+        public static IApplicationBuilder UseCheckIP(
+          this IApplicationBuilder app,
+          List<string> ips)
+        {
+            return app.UseMiddleware<CheckIPMiddleware>((object)ips);
+        }
 
-    public static IApplicationBuilder UseCheckIP(
-      this IApplicationBuilder app,
-      string ip)
-    {
-      return app.UseMiddleware<CheckIPMiddleware>((object) ip);
+        public static IApplicationBuilder UseCheckIP(
+          this IApplicationBuilder app,
+          string ip)
+        {
+            return app.UseMiddleware<CheckIPMiddleware>((object)ip);
+        }
     }
-  }
 }

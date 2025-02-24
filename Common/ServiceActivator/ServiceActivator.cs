@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace San.CoreCommon.ServiceActivator
+namespace Common.ServiceActivator
 {
     public static class ServiceActivator
     {

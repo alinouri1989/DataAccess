@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 
 #nullable enable
-namespace Repository.Cache
+namespace DataAccess.Repository.Cache
 {
   public class QuartzHostedService : IHostedService
   {

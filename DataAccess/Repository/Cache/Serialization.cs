@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Repository.Cache
+namespace DataAccess.Repository.Cache
 {
     public static class Serialization
     {

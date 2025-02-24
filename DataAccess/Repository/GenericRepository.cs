@@ -1,10 +1,10 @@
-﻿using EFCoreSecondLevelCacheInterceptor;
+﻿using DataAccess.Repository.Cache;
+using EFCoreSecondLevelCacheInterceptor;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Repository.Cache;
 using System;
 using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 
 #nullable enable
-namespace Repository
+namespace DataAccess.Repository
 {
     public class GenericRepository<TEntity, TContext> : IGenericRepository<
 #nullable disable

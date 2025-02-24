@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace San.CoreCommon.Constants;
+namespace Common.Constants;
 
 public class StatusConstants
 {

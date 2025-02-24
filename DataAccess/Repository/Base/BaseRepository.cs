@@ -1,6 +1,6 @@
 ﻿using Common.BaseDto;
+using Common.ServiceActivator;
 using Microsoft.EntityFrameworkCore;
-using San.CoreCommon.ServiceActivator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Repository.Base
+namespace DataAccess.Repository.Base
 {
     public class RepositoryBase<TEntity, TContext> : IRepositoryBase<TEntity, TContext>
         where TEntity : class

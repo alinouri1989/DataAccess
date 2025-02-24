@@ -52,11 +52,11 @@ public class SecondLevelCacheInterceptor : DbCommandInterceptor
         int result,
         CancellationToken cancellationToken = default)
 #else
-        public override async Task<int> NonQueryExecutedAsync(
-            DbCommand command,
-            CommandExecutedEventData eventData,
-            int result,
-            CancellationToken cancellationToken = default)
+    public override async ValueTask<int> NonQueryExecutedAsync(
+        DbCommand command,
+        CommandExecutedEventData eventData,
+        int result,
+        CancellationToken cancellationToken = default)
 #endif
     {
         using var lockAsync = await _lockProvider.LockAsync(cancellationToken);
@@ -85,11 +85,11 @@ public class SecondLevelCacheInterceptor : DbCommandInterceptor
         InterceptionResult<int> result,
         CancellationToken cancellationToken = default)
 #else
-        public override async Task<InterceptionResult<int>> NonQueryExecutingAsync(
-            DbCommand command,
-            CommandEventData eventData,
-            InterceptionResult<int> result,
-            CancellationToken cancellationToken = default)
+    public override async ValueTask<InterceptionResult<int>> NonQueryExecutingAsync(
+        DbCommand command,
+        CommandEventData eventData,
+        InterceptionResult<int> result,
+        CancellationToken cancellationToken = default)
 #endif
     {
         using var lockAsync = await _lockProvider.LockAsync(cancellationToken);
@@ -118,11 +118,11 @@ public class SecondLevelCacheInterceptor : DbCommandInterceptor
         DbDataReader result,
         CancellationToken cancellationToken = default)
 #else
-        public override async Task<DbDataReader> ReaderExecutedAsync(
-            DbCommand command,
-            CommandExecutedEventData eventData,
-            DbDataReader result,
-            CancellationToken cancellationToken = default)
+    public override async ValueTask<DbDataReader> ReaderExecutedAsync(
+        DbCommand command,
+        CommandExecutedEventData eventData,
+        DbDataReader result,
+        CancellationToken cancellationToken = default)
 #endif
     {
         using var lockAsync = await _lockProvider.LockAsync(cancellationToken);
@@ -151,11 +151,11 @@ public class SecondLevelCacheInterceptor : DbCommandInterceptor
         InterceptionResult<DbDataReader> result,
         CancellationToken cancellationToken = default)
 #else
-        public override async Task<InterceptionResult<DbDataReader>> ReaderExecutingAsync(
-            DbCommand command,
-            CommandEventData eventData,
-            InterceptionResult<DbDataReader> result,
-            CancellationToken cancellationToken = default)
+    public override async ValueTask<InterceptionResult<DbDataReader>> ReaderExecutingAsync(
+        DbCommand command,
+        CommandEventData eventData,
+        InterceptionResult<DbDataReader> result,
+        CancellationToken cancellationToken = default)
 #endif
     {
         using var lockAsync = await _lockProvider.LockAsync(cancellationToken);
@@ -184,11 +184,11 @@ public class SecondLevelCacheInterceptor : DbCommandInterceptor
         object result,
         CancellationToken cancellationToken = default)
 #else
-        public override async Task<object> ScalarExecutedAsync(
-            DbCommand command,
-            CommandExecutedEventData eventData,
-            object result,
-            CancellationToken cancellationToken = default)
+    public override async ValueTask<object> ScalarExecutedAsync(
+        DbCommand command,
+        CommandExecutedEventData eventData,
+        object result,
+        CancellationToken cancellationToken = default)
 #endif
     {
         using var lockAsync = await _lockProvider.LockAsync(cancellationToken);
@@ -217,11 +217,11 @@ public class SecondLevelCacheInterceptor : DbCommandInterceptor
         InterceptionResult<object> result,
         CancellationToken cancellationToken = default)
 #else
-        public override async Task<InterceptionResult<object>> ScalarExecutingAsync(
-            DbCommand command,
-            CommandEventData eventData,
-            InterceptionResult<object> result,
-            CancellationToken cancellationToken = default)
+    public override async ValueTask<InterceptionResult<object>> ScalarExecutingAsync(
+        DbCommand command,
+        CommandEventData eventData,
+        InterceptionResult<object> result,
+        CancellationToken cancellationToken = default)
 #endif
     {
         using var lockAsync = await _lockProvider.LockAsync(cancellationToken);

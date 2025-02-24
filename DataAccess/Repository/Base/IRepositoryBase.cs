@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Repository.Base
+namespace DataAccess.Repository.Base
 {
     public interface IRepositoryBase<TEntity, TContext>
                                where TEntity : class

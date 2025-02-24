@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Common.ServiceActivator;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using San.CoreCommon.ServiceActivator;
 using System.Threading.Tasks;
 
-namespace Repository.Base
+namespace DataAccess.Repository.Base
 {
     public class BaseEf<TContext> : IBaseEf
         where TContext : DbContext

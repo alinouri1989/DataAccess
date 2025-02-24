@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace San.CoreCommon.Security.Encryptor
+namespace Common.Security.Crypto
 {
     [SingletonService]
     public sealed class Encryptor : IEncryptor
@@ -34,7 +34,7 @@ namespace San.CoreCommon.Security.Encryptor
                 73, 118, 97, 110,32, 77, 101, 100,118, 101, 100, 101,118
             }))
             {
-                return Convert.ToBase64String(this.Encrypt(
+                return Convert.ToBase64String(Encrypt(
                     Encoding.Unicode.GetBytes(clearText),
                     passwordDeriveBytes.GetBytes(32),
                     passwordDeriveBytes.GetBytes(16)));
@@ -50,7 +50,7 @@ namespace San.CoreCommon.Security.Encryptor
                 118, 101, 100, 101,
                 118
             });
-            return this.Encrypt(clearData, passwordDeriveBytes.GetBytes(32), passwordDeriveBytes.GetBytes(16));
+            return Encrypt(clearData, passwordDeriveBytes.GetBytes(32), passwordDeriveBytes.GetBytes(16));
         }
 
         private void Encrypt(string fileIn, string fileOut, string Password)
@@ -118,7 +118,7 @@ namespace San.CoreCommon.Security.Encryptor
                 118
             }))
             {
-                return Encoding.Unicode.GetString(this.Decrypt(
+                return Encoding.Unicode.GetString(Decrypt(
                     Convert.FromBase64String(cipherText),
                     passwordDeriveBytes.GetBytes(32),
                     passwordDeriveBytes.GetBytes(16)));
@@ -135,7 +135,7 @@ namespace San.CoreCommon.Security.Encryptor
                 118
             }))
             {
-                return this.Decrypt(cipherData, passwordDeriveBytes.GetBytes(32), passwordDeriveBytes.GetBytes(16));
+                return Decrypt(cipherData, passwordDeriveBytes.GetBytes(32), passwordDeriveBytes.GetBytes(16));
             }
         }
 

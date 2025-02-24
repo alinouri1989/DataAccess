@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Repository.Cache
+namespace DataAccess.Repository.Cache
 {
     public class UpdateCaheJob<T> : IJob where T : class
     {

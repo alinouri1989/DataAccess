@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 
-namespace Repository.Cache
+namespace DataAccess.Repository.Cache
 {
   public class CachProviderConfig
   {

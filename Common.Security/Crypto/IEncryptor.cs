@@ -1,4 +1,4 @@
-﻿namespace San.CoreCommon.Security.Encryptor
+﻿namespace Common.Security.Crypto
 {
   public interface IEncryptor
   {

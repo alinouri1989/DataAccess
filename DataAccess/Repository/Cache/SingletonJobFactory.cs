@@ -3,7 +3,7 @@ using Quartz;
 using Quartz.Spi;
 using System;
 
-namespace Repository.Cache
+namespace DataAccess.Repository.Cache
 {
   public class SingletonJobFactory : IJobFactory
   {

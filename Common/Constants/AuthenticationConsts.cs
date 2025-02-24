@@ -1,4 +1,4 @@
-﻿namespace San.CoreCommon.Constants
+﻿namespace Common.Constants
 {
     public class AuthenticationConsts
     {

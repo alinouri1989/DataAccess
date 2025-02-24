@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Common
+namespace DataAccess.Application.Base
 {
     public interface IBaseService<TEntity, TContext> where TEntity : class
     {

@@ -3,7 +3,7 @@ using Quartz;
 using System;
 using System.Linq.Expressions;
 
-namespace Repository.Cache
+namespace DataAccess.Repository.Cache
 {
     public class StaticCacheSetting<T>
     {
