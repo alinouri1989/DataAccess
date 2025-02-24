@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// TableRow's structure

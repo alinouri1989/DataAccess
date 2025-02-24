@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// Helps processing SecondLevelCacheInterceptor

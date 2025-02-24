@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// ServiceCollection Extensions
@@ -11,7 +11,7 @@ namespace EFCoreSecondLevelCacheInterceptor
     public static class EFServiceCollectionExtensions
     {
         /// <summary>
-        /// Registers the required services of the EFCoreSecondLevelCacheInterceptor.
+        /// Registers the required services of the DataAccess.EFCoreSecondLevelCacheInterceptor.
         /// </summary>
         public static IServiceCollection AddEFSecondLevelCache(
             this IServiceCollection services,

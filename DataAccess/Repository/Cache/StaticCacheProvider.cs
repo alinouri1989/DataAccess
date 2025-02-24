@@ -1,4 +1,4 @@
-﻿using EFCoreSecondLevelCacheInterceptor;
+﻿using DataAccess.EFCoreSecondLevelCacheInterceptor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;

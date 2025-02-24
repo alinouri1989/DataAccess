@@ -6,7 +6,7 @@ using System.Data.Common;
 using System.Globalization;
 using System.Linq;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// Converts an EFTableRows to a DbDataReader.

@@ -1,4 +1,4 @@
-﻿using EFCoreSecondLevelCacheInterceptor;
+﻿using DataAccess.EFCoreSecondLevelCacheInterceptor;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using System;

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// Formats and writes a debug log message.

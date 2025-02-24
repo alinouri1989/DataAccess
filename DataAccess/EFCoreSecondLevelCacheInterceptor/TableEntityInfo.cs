@@ -1,6 +1,6 @@
 using System;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// A Table's EntityInfo

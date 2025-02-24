@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// EFCachePolicy determines the Expiration time of the cache.

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// EFCachePolicy Parser Utils

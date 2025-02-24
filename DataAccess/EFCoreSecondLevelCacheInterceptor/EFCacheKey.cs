@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// Stores information of the computed key of the input LINQ query.

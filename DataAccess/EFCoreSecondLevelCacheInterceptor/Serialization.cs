@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     public static class Serialization
     {

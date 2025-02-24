@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Primitives;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// Propagates notifications that a change has occurred.

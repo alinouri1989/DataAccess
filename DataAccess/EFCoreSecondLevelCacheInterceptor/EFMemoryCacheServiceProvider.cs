@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// Using IMemoryCache as a cache service.

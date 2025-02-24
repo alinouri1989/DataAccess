@@ -1,5 +1,6 @@
-﻿using DataAccess.Repository.Cache;
-using EFCoreSecondLevelCacheInterceptor;
+﻿using DataAccess.DataAccess.EFCoreSecondLevelCacheInterceptor;
+using DataAccess.Repository.Cache;
+using DataAccess.EFCoreSecondLevelCacheInterceptor;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

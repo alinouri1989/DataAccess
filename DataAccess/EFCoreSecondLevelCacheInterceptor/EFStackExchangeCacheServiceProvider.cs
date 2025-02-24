@@ -4,7 +4,7 @@ using StackExchange.Redis.Extensions.Core.Abstractions;
 using StackExchange.Redis.Extensions.Core.Configuration;
 using System.Collections.Generic; // Ensure you're using the correct namespace  
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     public class EFStackExchangeCacheServiceProvider : IEFCacheServiceProvider
     {

@@ -1,9 +1,10 @@
-using System;
-using System.Linq;
+using DataAccess.EFCoreSecondLevelCacheInterceptor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using System;
+using System.Linq;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// Returns a new cached query.
@@ -15,7 +16,7 @@ namespace EFCoreSecondLevelCacheInterceptor
         /// <summary>
         /// IsNotCachable Marker
         /// </summary>
-        public static readonly string IsNotCachableMarker = $"{nameof(EFCoreSecondLevelCacheInterceptor)}{nameof(NotCacheable)}";
+        public static readonly string IsNotCachableMarker = $"{nameof(DataAccess.EFCoreSecondLevelCacheInterceptor)}{nameof(NotCacheable)}";
 
         /// <summary>
         /// Returns a new query where the entities returned will be cached.

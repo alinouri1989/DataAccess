@@ -1,5 +1,5 @@
 ﻿using EasyCaching.Core;
-using EFCoreSecondLevelCacheInterceptor;
+using DataAccess.EFCoreSecondLevelCacheInterceptor;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;

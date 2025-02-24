@@ -6,7 +6,7 @@ using System.Data.Common;
 using System.Globalization;
 using System.Text;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// A custom cache key provider for EF queries.

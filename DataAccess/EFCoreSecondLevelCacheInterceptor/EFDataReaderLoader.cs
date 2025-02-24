@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.IO;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// Converts a DbDataReader to an EFTableRows

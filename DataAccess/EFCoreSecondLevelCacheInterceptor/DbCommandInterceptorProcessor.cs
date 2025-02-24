@@ -5,7 +5,7 @@ using System;
 using System.Data.Common;
 using System.Globalization;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// Helps processing SecondLevelCacheInterceptor

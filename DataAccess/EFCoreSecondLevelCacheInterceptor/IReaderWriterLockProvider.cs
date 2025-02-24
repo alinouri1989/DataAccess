@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// Reader writer locking service

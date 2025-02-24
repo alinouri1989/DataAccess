@@ -1,10 +1,11 @@
+using DataAccess.DataAccess.EFCoreSecondLevelCacheInterceptor;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     ///     EFCachePolicy Parser Utils

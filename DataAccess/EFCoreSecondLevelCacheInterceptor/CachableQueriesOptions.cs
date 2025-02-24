@@ -1,4 +1,4 @@
-﻿namespace EFCoreSecondLevelCacheInterceptor
+﻿namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// Cachable queries Options

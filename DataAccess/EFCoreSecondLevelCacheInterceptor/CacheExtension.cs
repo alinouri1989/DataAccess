@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using System;
 
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
   public static class CacheExtension
   {

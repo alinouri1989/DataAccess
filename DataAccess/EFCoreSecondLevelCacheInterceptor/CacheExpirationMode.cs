@@ -1,4 +1,4 @@
-namespace EFCoreSecondLevelCacheInterceptor
+namespace DataAccess.EFCoreSecondLevelCacheInterceptor
 {
     /// <summary>
     /// Defines the supported expiration modes for cache items.
