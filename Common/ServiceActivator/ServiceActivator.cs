@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Common.ServiceActivator
+namespace Common.Activation
 {
     public static class ServiceActivator
     {
@@ -35,10 +35,8 @@ namespace Common.ServiceActivator
         // Resolve a service within a new scope  
         public static T GetService<T>(IServiceProvider serviceProvider = null)
         {
-            using (var scope = CreateScope())
-            {
-                return scope.ServiceProvider.GetRequiredService<T>();
-            }
+            using var scope = CreateScope();
+            return scope.ServiceProvider.GetRequiredService<T>();
         }
     }
 }
