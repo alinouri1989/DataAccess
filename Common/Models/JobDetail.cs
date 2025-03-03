@@ -1,4 +1,4 @@
-﻿namespace SaleSystemService
+﻿namespace Common.Models
 {
     public class JobDetail
     {
@@ -10,5 +10,4 @@
         public int? WithIntervalInHours { get; set; }
         public bool IsActive { get; set; }
     }
-
 }

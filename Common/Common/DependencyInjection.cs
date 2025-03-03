@@ -2,7 +2,7 @@
 using System;
 using System.Reflection;
 
-namespace Common
+namespace Common.DI
 {
     public static class DependencyInjection
     {

@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace Proxy.Shared;
+namespace Common.CommonClient;
 
 public class GenericHttpClient
 {
@@ -92,19 +92,17 @@ public class GenericHttpClient
 
     private async Task<TResponse> SendHttpRequestAsync<TRequest, TResponse>(HttpMethod method, string url, TRequest requestBody)
     {
-        using (var request = new HttpRequestMessage(method, url))
+        using var request = new HttpRequestMessage(method, url);
+        // If requestBody is not null, serialize it and set as content  
+        if (requestBody != null)
         {
-            // If requestBody is not null, serialize it and set as content  
-            if (requestBody != null)
-            {
-                request.Content = JsonContent.Create(requestBody);
-            }
-
-            var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            return await response.Content.ReadFromJsonAsync<TResponse>();
+            request.Content = JsonContent.Create(requestBody);
         }
+
+        var response = await _httpClient.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<TResponse>();
     }
 
     public virtual async Task<TResponse> Post<TRequest, TResponse>(TRequest requestBody, string relativeUrl)
