@@ -7,6 +7,7 @@
 		<Authors>Seyed Ali Nouri</Authors>
 		<Product>San.Common.Security</Product>
 		<PackageId>San.Common.Security</PackageId>
+		<Nullable>disable</Nullable>
 		<Version>3.9.2</Version>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>

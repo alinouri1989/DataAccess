@@ -1,12 +1,12 @@
 ﻿using Asp.Versioning;
 using Common.Constants;
+using Common.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using SaleSystemService;
 using System;
 using System.Globalization;
 using System.Linq;

@@ -7,6 +7,7 @@
 		<Authors>Seyed Ali Nouri</Authors>
 		<Product>San.Common.ExtensionMethods</Product>
 		<PackageId>San.Common.ExtensionMethods</PackageId>
+		<Nullable>disable</Nullable>
 		<Version>3.9.2</Version>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>

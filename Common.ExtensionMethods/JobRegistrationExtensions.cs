@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using Common.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
-using SaleSystemService;
+using System;
+using System.Linq;
 
 public static class JobRegistrationExtensions
 {
