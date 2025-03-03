@@ -22,6 +22,9 @@
 		<PackageReference Include="Quartz" Version="3.13.1" />
 		<PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.13.1" />
 		<PackageReference Include="Quartz.Extensions.Hosting" Version="3.13.1" />
+
+		<PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />

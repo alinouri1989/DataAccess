@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
@@ -23,7 +22,7 @@ namespace Common.Security.Authorization
             SanAuthorizeAttribute authorizeAttribute = (context.ActionDescriptor as ControllerActionDescriptor).MethodInfo.GetCustomAttributes<SanAuthorizeAttribute>().FirstOrDefault<SanAuthorizeAttribute>();
             if (authorizeAttribute == null)
             {
-                context.Result = (IActionResult)new ForbidResult();
+                context.Result = new ForbidResult();
                 return Task.CompletedTask;
             }
             this.ClaimType = authorizeAttribute.claimtype;
@@ -31,13 +30,13 @@ namespace Common.Security.Authorization
             ClaimsPrincipal user = context.HttpContext.User;
             if (user != null && (user.IsInRole("SuperAdmin") || user.WithClaim(this.ClaimValue, this.ClaimType)))
                 return Task.CompletedTask;
-            context.Result = (IActionResult)new ForbidResult();
+            context.Result = new ForbidResult();
             return Task.CompletedTask;
         }
 
         private bool IsProtectedAction(AuthorizationFilterContext context)
         {
-            if (context.Filters.Any<IFilterMetadata>((Func<IFilterMetadata, bool>)(item => item is IAllowAnonymousFilter)))
+            if (context.Filters.Any(item => item is IAllowAnonymousFilter))
                 return false;
             ControllerActionDescriptor actionDescriptor = (ControllerActionDescriptor)context.ActionDescriptor;
             TypeInfo controllerTypeInfo = actionDescriptor.ControllerTypeInfo;
