@@ -11,11 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddServiceIfNotExist<TService>(
-        this IServiceCollection services,
-        string serviceName,
-        Func<IServiceProvider, TService> implementationFactory,
-        ServiceLifetime lifetime = ServiceLifetime.Scoped)
+        public static IServiceCollection AddServiceIfNotExist<TService>(this IServiceCollection services, string serviceName, Func<IServiceProvider, TService> implementationFactory, ServiceLifetime lifetime = ServiceLifetime.Scoped)
         where TService : class
         {
             bool alreadyRegistered = services.Any(
@@ -32,6 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return services;
         }
+
         public static IServiceCollection AddMemoryCacheIfNotExist(this IServiceCollection services)
         {
             if (!services.Any(sd => sd.ServiceType == typeof(IMemoryCache)))
@@ -40,7 +37,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }
             return services;
         }
-        public static void RegisterCache(IServiceCollection services, IConfiguration configuration)
+        public static void RegisterCache(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<RedisConfiguration>(configuration.GetSection("Redis"));
             var rdc = configuration.GetSection("Redis").Get<RedisConfiguration>();

@@ -15,7 +15,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.Security.Authorization
+namespace Common.ExtensionMethods
 {
     public static class IdentityExtensions
     {
