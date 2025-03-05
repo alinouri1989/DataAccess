@@ -1,11 +1,64 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Common.Cache;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
+using StackExchange.Redis;
+using StackExchange.Redis.Extensions.Core.Configuration;
 using System;
+using System.Linq;
 using System.Reflection;
 
-namespace Common.DI
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DependencyInjection
     {
+        public static IServiceCollection AddServiceIfNotExist<TService>(
+        this IServiceCollection services,
+        string serviceName,
+        Func<IServiceProvider, TService> implementationFactory,
+        ServiceLifetime lifetime = ServiceLifetime.Scoped)
+        where TService : class
+        {
+            bool alreadyRegistered = services.Any(
+                sd => sd.ServiceType == typeof(TService) && sd.ImplementationFactory != null &&
+                      sd.ImplementationFactory.Target.GetType().FullName == serviceName);
+
+            if (!alreadyRegistered)
+            {
+                services.Add(new ServiceDescriptor(
+                    typeof(TService),
+                    implementationFactory,
+                    lifetime));
+            }
+
+            return services;
+        }
+        public static IServiceCollection AddMemoryCacheIfNotExist(this IServiceCollection services)
+        {
+            if (!services.Any(sd => sd.ServiceType == typeof(IMemoryCache)))
+            {
+                services.AddMemoryCache();
+            }
+            return services;
+        }
+        public static void RegisterCache(IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<RedisConfiguration>(configuration.GetSection("Redis"));
+            var rdc = configuration.GetSection("Redis").Get<RedisConfiguration>();
+            services.AddSingleton<IConnectionMultiplexer>(option =>
+                           ConnectionMultiplexer.Connect(new ConfigurationOptions
+                           {
+                               EndPoints = { $"{rdc.Hosts.FirstOrDefault().Host}:{rdc.Hosts.FirstOrDefault().Port}" },
+                               AbortOnConnectFail = rdc.AbortOnConnectFail,
+                               Ssl = rdc.Ssl,
+                               Password = rdc.Password,
+                               ConnectRetry = rdc.ConnectRetry.HasValue ? rdc.ConnectRetry.Value : 2,
+                               SyncTimeout = rdc.SyncTimeout
+                           }));
+            services.AddMemoryCacheIfNotExist();
+            services.AddSingleton<ICacheService, CacheService>();
+        }
+
+
         public static IServiceCollection RegisterCommon(
           this IServiceCollection services)
         {
