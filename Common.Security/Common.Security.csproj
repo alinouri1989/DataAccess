@@ -8,7 +8,7 @@
 		<Product>San.Common.Security</Product>
 		<PackageId>San.Common.Security</PackageId>
 		<Nullable>disable</Nullable>
-		<Version>3.9.2</Version>
+		<Version>3.9.3</Version>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 	<ItemGroup>
@@ -19,7 +19,7 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.2" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Common.ExtensionMethods\Common.ExtensionMethods.csproj" />
+		<ProjectReference Include="..\Common.ExtensionMethods\Common.Extension.csproj" />
 		<ProjectReference Include="..\Common\Common.csproj" />
 	</ItemGroup>
 </Project>

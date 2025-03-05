@@ -5,10 +5,10 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Authors>Seyed Ali Nouri</Authors>
-		<Product>San.Common.ExtensionMethods</Product>
-		<PackageId>San.Common.ExtensionMethods</PackageId>
+		<Product>San.Common.Extension</Product>
+		<PackageId>San.Common.Extension</PackageId>
 		<Nullable>disable</Nullable>
-		<Version>3.9.2</Version>
+		<Version>3.9.3</Version>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 

@@ -6,7 +6,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DataAccess", "Common
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{65C7C27B-E965-4AF0-943A-017CC17878BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.ExtensionMethods", "Common.ExtensionMethods\Common.ExtensionMethods.csproj", "{2D05A898-32E4-475A-B995-39666E7A55D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Extension", "Common.ExtensionMethods\Common.Extension.csproj", "{2D05A898-32E4-475A-B995-39666E7A55D0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Security", "Common.Security\Common.Security.csproj", "{6F730D6C-9B0A-43D0-80E9-1BA22977B541}"
 EndProject
