@@ -7,7 +7,7 @@
     <Product>San.Common.DataAccess</Product>
     <PackageId>San.Common.DataAccess</PackageId>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>3.9.3</Version>
+    <Version>3.9.4</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
