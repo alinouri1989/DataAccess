@@ -85,14 +85,22 @@ namespace Common.Cache
 
         private byte[] Serialize<T>(T value)
         {
-            var serializedValue = JsonConvert.SerializeObject(value);
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+            var serializedValue = JsonConvert.SerializeObject(value, settings);
             return Encoding.UTF8.GetBytes(serializedValue);
         }
 
         private T Deserialize<T>(byte[] value)
         {
             var serializedValue = Encoding.UTF8.GetString(value);
-            return JsonConvert.DeserializeObject<T>(serializedValue);
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+            return JsonConvert.DeserializeObject<T>(serializedValue, settings);
         }
         public T Get<T>(string key)
         {
