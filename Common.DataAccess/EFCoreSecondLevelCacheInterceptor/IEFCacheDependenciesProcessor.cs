@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     Cache Dependencies Calculator

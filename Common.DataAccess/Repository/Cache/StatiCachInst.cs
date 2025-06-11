@@ -2,12 +2,12 @@
 
 namespace Common.DataAccess.Repository.Cache
 {
-  public static class StatiCachInst
-  {
-    private static List<object> StaticCacheSetting = new List<object>();
+    public static class StatiCachInst
+    {
+        private static List<object> StaticCacheSetting = new List<object>();
 
-    public static void add(object staticCache) => StatiCachInst.StaticCacheSetting.Add(staticCache);
+        public static void add(object staticCache) => StaticCacheSetting.Add(staticCache);
 
-    public static List<object> Get() => StatiCachInst.StaticCacheSetting;
-  }
+        public static List<object> Get() => StaticCacheSetting;
+    }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     Returns a new cached query.

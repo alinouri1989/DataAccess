@@ -1,6 +1,6 @@
 using System;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     CacheAllQueries Options

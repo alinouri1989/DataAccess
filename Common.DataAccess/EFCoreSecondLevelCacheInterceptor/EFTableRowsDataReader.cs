@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text.Json;
 #endif
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     Converts an EFTableRows to a DbDataReader.

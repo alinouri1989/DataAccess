@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     TableColumn's Info

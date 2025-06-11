@@ -1,4 +1,4 @@
-﻿namespace EFCoreSecondLevelCacheInterceptor;
+﻿namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     Is the configured cache provider online?

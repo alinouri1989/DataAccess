@@ -1,7 +1,7 @@
 using MessagePack;
 using MessagePack.Resolvers;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     High-Level API of MessagePack for C#.

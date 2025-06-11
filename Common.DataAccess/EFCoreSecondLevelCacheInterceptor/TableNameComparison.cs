@@ -1,4 +1,4 @@
-﻿namespace EFCoreSecondLevelCacheInterceptor;
+﻿namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     How should we determine which tables should be cached?

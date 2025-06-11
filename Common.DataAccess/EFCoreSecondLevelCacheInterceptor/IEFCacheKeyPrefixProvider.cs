@@ -1,4 +1,4 @@
-﻿namespace EFCoreSecondLevelCacheInterceptor;
+﻿namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     A custom cache key prefix provider for EF queries.

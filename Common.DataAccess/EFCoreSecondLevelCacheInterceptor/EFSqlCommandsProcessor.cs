@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     SqlCommands Utils

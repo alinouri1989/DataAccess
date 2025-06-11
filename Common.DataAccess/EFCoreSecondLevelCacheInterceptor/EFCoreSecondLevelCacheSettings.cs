@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 #endif
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     Global Cache Settings

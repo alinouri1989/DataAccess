@@ -5,9 +5,9 @@ namespace Common.DataAccess.Repository.Cache
 {
   public class CachProviderConfig
   {
-    private CachProviderConfig.ProviderEnum _Provider = CachProviderConfig.ProviderEnum.memoryCach;
+    private ProviderEnum _Provider = ProviderEnum.memoryCach;
 
-    public CachProviderConfig.ProviderEnum Provider
+    public ProviderEnum Provider
     {
       get => this._Provider;
       set => this._Provider = value;
@@ -23,8 +23,8 @@ namespace Common.DataAccess.Repository.Cache
 
     private void SetProvider(string provider)
     {
-      CachProviderConfig.ProviderEnum result = CachProviderConfig.ProviderEnum.memoryCach;
-      Enum.TryParse<CachProviderConfig.ProviderEnum>(provider, out result);
+            ProviderEnum result = ProviderEnum.memoryCach;
+      Enum.TryParse(provider, out result);
       this.Provider = result;
     }
 

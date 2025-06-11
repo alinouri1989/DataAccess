@@ -1,4 +1,4 @@
-﻿namespace EFCoreSecondLevelCacheInterceptor;
+﻿namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     Event IDs of the internal logged messages of the library

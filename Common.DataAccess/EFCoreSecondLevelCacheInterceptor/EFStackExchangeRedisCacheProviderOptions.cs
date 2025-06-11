@@ -2,7 +2,7 @@ using System;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using StackExchange.Redis;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     Defines EFCoreSecondLevel's Options

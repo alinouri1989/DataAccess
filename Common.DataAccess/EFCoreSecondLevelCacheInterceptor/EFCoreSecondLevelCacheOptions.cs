@@ -3,7 +3,7 @@ using System;
 using System.Text.Json;
 #endif
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     Defines EFCoreSecondLevel's Options

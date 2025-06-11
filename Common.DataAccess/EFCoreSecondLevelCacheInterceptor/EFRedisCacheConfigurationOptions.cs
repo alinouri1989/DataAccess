@@ -1,6 +1,6 @@
 ﻿using StackExchange.Redis;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     The options relevant to a set of redis connections.

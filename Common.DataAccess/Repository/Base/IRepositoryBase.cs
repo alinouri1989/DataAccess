@@ -20,7 +20,6 @@ namespace Common.DataAccess.Repository.Base
         Task<List<Tout>> SqlQueryAsync<Tout>(FormattableString sql);
         #endregion
 
-
         #region Get
         IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, params Expression<Func<TEntity, object>>[] includeProperties);
         Task<TEntity> GetByIdAsync(object id);

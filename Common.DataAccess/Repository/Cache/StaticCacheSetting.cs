@@ -1,4 +1,4 @@
-﻿using EFCoreSecondLevelCacheInterceptor;
+﻿using Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 using Quartz;
 using System;
 using System.Linq.Expressions;

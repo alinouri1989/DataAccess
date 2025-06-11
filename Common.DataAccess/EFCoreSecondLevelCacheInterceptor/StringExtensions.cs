@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo(assemblyName: "EFCoreSecondLevelCacheInterceptor.UnitTests")]
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     Missing NET4_6_2 exts

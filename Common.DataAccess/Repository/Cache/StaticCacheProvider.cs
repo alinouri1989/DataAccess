@@ -1,4 +1,4 @@
-﻿using EFCoreSecondLevelCacheInterceptor;
+﻿using Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,7 +14,7 @@ namespace Common.DataAccess.Repository.Cache
           StaticCacheSetting<TEntity> staticCacheSetting)
           where TEntity : class
         {
-            services.configOptions<TEntity>(staticCacheSetting);
+            services.configOptions(staticCacheSetting);
             return services;
         }
 
@@ -24,7 +24,7 @@ namespace Common.DataAccess.Repository.Cache
           where TEntity : class
           where TResult : class
         {
-            services.configOptions<TEntity, TResult>(staticCacheSetting);
+            services.configOptions(staticCacheSetting);
             return services;
         }
 
@@ -53,12 +53,12 @@ namespace Common.DataAccess.Repository.Cache
                      cacheOptions.cacheSelector,
                      cacheOptions.cacheFilter
                 };
-                ((IEnumerable<TEntity>)type.GetMethod("Cache").Invoke(instance, parameters)).ToList<TEntity>();
+                ((IEnumerable<TEntity>)type.GetMethod("Cache").Invoke(instance, parameters)).ToList();
             }
             else
             {
                 services.AddSingleton<UpdateCaheJob<TEntity>>();
-                services.AddSingleton<JobSchedule>(new JobSchedule(typeof(UpdateCaheJob<TEntity>), cacheOptions.Schedule));
+                services.AddSingleton(new JobSchedule(typeof(UpdateCaheJob<TEntity>), cacheOptions.Schedule));
             }
         }
 
@@ -88,7 +88,7 @@ namespace Common.DataAccess.Repository.Cache
                       cacheOptions.cacheSelector,
                       cacheOptions.cacheFilter
                 ];
-                ((IEnumerable<TResult>)type.GetMethod("Cache").MakeGenericMethod(typeof(TResult)).Invoke(instance, parameters)).ToList<TResult>();
+                ((IEnumerable<TResult>)type.GetMethod("Cache").MakeGenericMethod(typeof(TResult)).Invoke(instance, parameters)).ToList();
             }
             else
             {

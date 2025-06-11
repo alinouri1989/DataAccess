@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     Stack Exchange Redis Cache Provider

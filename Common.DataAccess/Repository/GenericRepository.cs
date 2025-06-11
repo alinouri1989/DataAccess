@@ -1,5 +1,5 @@
-﻿using Common.DataAccess.Repository.Cache;
-using EFCoreSecondLevelCacheInterceptor;
+﻿using Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
+using Common.DataAccess.Repository.Cache;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -35,12 +35,12 @@ namespace Common.DataAccess.Repository
           Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
           params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            IQueryable<TEntity> source = (IQueryable<TEntity>)this.dbSet;
+            IQueryable<TEntity> source = dbSet;
             if (filter != null)
-                source = source.Where<TEntity>(filter);
+                source = source.Where(filter);
             foreach (Expression<Func<TEntity, object>> includeProperty in includeProperties)
-                source = (IQueryable<TEntity>)source.Include<TEntity, object>(includeProperty);
-            return orderBy != null ? (IQueryable<TEntity>)orderBy(source) : source;
+                source = source.Include(includeProperty);
+            return orderBy != null ? orderBy(source) : source;
         }
 
         public virtual IQueryable<TType> Cache<TType>(
@@ -50,7 +50,7 @@ namespace Common.DataAccess.Repository
           Expression<Func<TEntity, bool>> filter = null)
           where TType : class
         {
-            IQueryable<TEntity> queryable = (IQueryable<TEntity>)this.dbSet;
+            IQueryable<TEntity> queryable = dbSet;
             if (filter != null)
                 queryable = queryable.Where(filter);
             return queryable.Cacheable<TEntity>(cacheExpirationMode, timeout).Select(selector);
@@ -58,12 +58,12 @@ namespace Common.DataAccess.Repository
 
         public virtual List<TEntity> GetFromStaticCache()
         {
-            IQueryable<TEntity> source = (IQueryable<TEntity>)this.dbSet;
-            Expression<Func<TEntity, TEntity>> selector = (Expression<Func<TEntity, TEntity>>)null;
-            Expression<Func<TEntity, bool>> predicate = (Expression<Func<TEntity, bool>>)null;
+            IQueryable<TEntity> source = dbSet;
+            Expression<Func<TEntity, TEntity>> selector = null;
+            Expression<Func<TEntity, bool>> predicate = null;
             foreach (object obj in StatiCachInst.Get())
             {
-                if (((IEnumerable<Type>)obj.GetType().GetGenericArguments()).FirstOrDefault<Type>().Equals(typeof(TEntity)))
+                if (obj.GetType().GetGenericArguments().FirstOrDefault().Equals(typeof(TEntity)))
                 {
                     StaticCacheSetting<TEntity> staticCacheSetting = obj as StaticCacheSetting<TEntity>;
                     selector = staticCacheSetting.cacheSelector;
@@ -71,10 +71,10 @@ namespace Common.DataAccess.Repository
                 }
             }
             if (predicate != null)
-                source = source.Where<TEntity>(predicate);
+                source = source.Where(predicate);
             if (selector != null)
-                source = source.Select<TEntity, TEntity>(selector);
-            return source.ToList<TEntity>();
+                source = source.Select(selector);
+            return source.ToList();
         }
 
         public virtual TEntity GetByID(object id) => this.dbSet.Find(id);
@@ -91,12 +91,12 @@ namespace Common.DataAccess.Repository
           Expression<Func<TEntity, bool>> filter = null,
           params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            IQueryable<TEntity> source = (IQueryable<TEntity>)this.dbSet;
+            IQueryable<TEntity> source = dbSet;
             if (filter != null)
-                source = source.Where<TEntity>(filter);
+                source = source.Where(filter);
             foreach (Expression<Func<TEntity, object>> includeProperty in includeProperties)
-                source = (IQueryable<TEntity>)source.Include<TEntity, object>(includeProperty);
-            return source.FirstOrDefaultAsync<TEntity>();
+                source = source.Include(includeProperty);
+            return source.FirstOrDefaultAsync();
         }
 
         public virtual void Insert(TEntity entity) => this.dbSet.Add(entity);
@@ -104,11 +104,11 @@ namespace Common.DataAccess.Repository
         public virtual void Update(TEntity entity, string[] properities)
         {
             this.dbSet.Attach(entity);
-            EntityEntry<TEntity> entityEntry = this.Context.Entry<TEntity>(entity);
+            EntityEntry<TEntity> entityEntry = this.Context.Entry(entity);
             entityEntry.State = EntityState.Modified;
             foreach (string properity in properities)
             {
-                this.Context.Entry<TEntity>(entity).Property(properity);
+                this.Context.Entry(entity).Property(properity);
                 entityEntry.Property(properity).IsModified = false;
             }
         }
@@ -118,11 +118,11 @@ namespace Common.DataAccess.Repository
           params Expression<Func<TEntity, object>>[] excludePropertyExpression)
         {
             this.dbSet.Attach(entityToUpdate);
-            this.Context.Entry<TEntity>(entityToUpdate).State = EntityState.Modified;
+            this.Context.Entry(entityToUpdate).State = EntityState.Modified;
             if (excludePropertyExpression == null)
                 return;
             foreach (Expression<Func<TEntity, object>> propertyExpression in excludePropertyExpression)
-                this.Context.Entry<TEntity>(entityToUpdate).Property<object>(propertyExpression).IsModified = false;
+                this.Context.Entry(entityToUpdate).Property(propertyExpression).IsModified = false;
         }
 
         public virtual void UpdateField(
@@ -133,7 +133,7 @@ namespace Common.DataAccess.Repository
             if (includePropertyExpression == null)
                 return;
             foreach (Expression<Func<TEntity, object>> propertyExpression in includePropertyExpression)
-                this.Context.Entry<TEntity>(entityToUpdate).Property<object>(propertyExpression).IsModified = true;
+                this.Context.Entry(entityToUpdate).Property(propertyExpression).IsModified = true;
         }
 
         public virtual void AddRange(IEnumerable<TEntity> entities) => this.dbSet.AddRange(entities);

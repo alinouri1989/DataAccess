@@ -1,7 +1,7 @@
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
-using Microsoft.Extensions.Primitives;
 
 namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor
 {

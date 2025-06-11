@@ -2,7 +2,7 @@
 using MessagePack;
 using MessagePack.Formatters;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     The contract for serialization of some specific type.

@@ -12,7 +12,7 @@ using System.Collections;
 using System.Globalization;
 #endif
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     A custom cache key provider for EF queries.

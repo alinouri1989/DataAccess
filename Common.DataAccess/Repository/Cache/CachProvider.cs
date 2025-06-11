@@ -1,6 +1,5 @@
 ﻿using Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 using EasyCaching.Core;
-using EFCoreSecondLevelCacheInterceptor;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -107,7 +106,7 @@ namespace Common.DataAccess.Repository.Cache
           EFCachePolicy cachePolicy)
         {
             IMemoryCache _memoryCache = _serviceProvider.GetRequiredService<IMemoryCache>();
-            return _readerWriterLockProvider.TryReadLocked<EFCachedData>((Func<EFCachedData>)(() => _memoryCache.Get<EFCachedData>((object)cacheKey.KeyHash)));
+            return _readerWriterLockProvider.TryReadLocked(() => _memoryCache.Get<EFCachedData>(cacheKey.KeyHash));
         }
 
         private void MemoryCacheInsertValue(
@@ -117,7 +116,7 @@ namespace Common.DataAccess.Repository.Cache
         {
             IMemoryCacheChangeTokenProvider _signal = _serviceProvider.GetRequiredService<IMemoryCacheChangeTokenProvider>();
             IMemoryCache _memoryCache = _serviceProvider.GetRequiredService<IMemoryCache>();
-            _readerWriterLockProvider.TryWriteLocked((Action)(() =>
+            _readerWriterLockProvider.TryWriteLocked(() =>
             {
                 if (value == null)
                     value = new EFCachedData() { IsNull = true };
@@ -131,14 +130,14 @@ namespace Common.DataAccess.Repository.Cache
                     options.SlidingExpiration = new TimeSpan?(cachePolicy.CacheTimeout.Value);
                 foreach (string cacheDependency in (IEnumerable<string>)cacheKey.CacheDependencies)
                     options.ExpirationTokens.Add(_signal.GetChangeToken(cacheDependency));
-                _memoryCache.Set<EFCachedData>((object)cacheKey.KeyHash, value, options);
-            }));
+                _memoryCache.Set(cacheKey.KeyHash, value, options);
+            });
         }
 
         private void MemoryCacheClearAllCachedEntries()
         {
             IMemoryCacheChangeTokenProvider _signal = _serviceProvider.GetRequiredService<IMemoryCacheChangeTokenProvider>();
-            _readerWriterLockProvider.TryWriteLocked((Action)(() => _signal.RemoveAllChangeTokens()));
+            _readerWriterLockProvider.TryWriteLocked(() => _signal.RemoveAllChangeTokens());
         }
 
         private void MemoryCacheInvalidateCacheDependencies(EFCacheKey cacheKey)
@@ -147,18 +146,18 @@ namespace Common.DataAccess.Repository.Cache
             foreach (string cacheDependency in (IEnumerable<string>)cacheKey.CacheDependencies)
             {
                 string rootCacheKey = cacheDependency;
-                _readerWriterLockProvider.TryWriteLocked((Action)(() => _signal.RemoveChangeToken(rootCacheKey)));
+                _readerWriterLockProvider.TryWriteLocked(() => _signal.RemoveChangeToken(rootCacheKey));
             }
         }
 
-        private void RemoveMemoryCache(EFCacheKey cacheKey) => _serviceProvider.GetRequiredService<IMemoryCache>().Remove((object)cacheKey.KeyHash);
+        private void RemoveMemoryCache(EFCacheKey cacheKey) => _serviceProvider.GetRequiredService<IMemoryCache>().Remove(cacheKey.KeyHash);
 
         private EFCachedData EasyCacheGetValue(
           EFCacheKey cacheKey,
           EFCachePolicy cachePolicy)
         {
             IEasyCachingProvider _easyCachingProvider = _serviceProvider.GetRequiredService<IEasyCachingProvider>();
-            return _readerWriterLockProvider.TryReadLocked<EFCachedData>((Func<EFCachedData>)(() => ((IEasyCachingProviderBase)_easyCachingProvider).Get<EFCachedData>(cacheKey.KeyHash).Value));
+            return _readerWriterLockProvider.TryReadLocked(() => _easyCachingProvider.Get<EFCachedData>(cacheKey.KeyHash).Value);
         }
 
         private void EasyCacheInsertValue(
@@ -167,14 +166,14 @@ namespace Common.DataAccess.Repository.Cache
           EFCachePolicy cachePolicy)
         {
             IEasyCachingProvider _easyCachingProvider = _serviceProvider.GetRequiredService<IEasyCachingProvider>();
-            _readerWriterLockProvider.TryWriteLocked((Action)(() =>
+            _readerWriterLockProvider.TryWriteLocked(() =>
             {
                 if (value == null)
                     value = new EFCachedData() { IsNull = true };
                 string keyHash = cacheKey.KeyHash;
                 foreach (string cacheDependency in (IEnumerable<string>)cacheKey.CacheDependencies)
                 {
-                    CacheValue<HashSet<string>> cacheValue = ((IEasyCachingProviderBase)_easyCachingProvider).Get<HashSet<string>>(cacheDependency);
+                    CacheValue<HashSet<string>> cacheValue = _easyCachingProvider.Get<HashSet<string>>(cacheDependency);
                     if (cacheValue.IsNull)
                     {
                         IEasyCachingProvider ieasyCachingProvider = _easyCachingProvider;
@@ -182,54 +181,54 @@ namespace Common.DataAccess.Repository.Cache
                         HashSet<string> stringSet = new HashSet<string>();
                         stringSet.Add(keyHash);
                         TimeSpan cacheTimeout = cachePolicy.CacheTimeout.Value;
-                        ((IEasyCachingProviderBase)ieasyCachingProvider).Set<HashSet<string>>(str, stringSet, cacheTimeout);
+                        ieasyCachingProvider.Set(str, stringSet, cacheTimeout);
                     }
                     else
                     {
                         cacheValue.Value.Add(keyHash);
-                        ((IEasyCachingProviderBase)_easyCachingProvider).Set<HashSet<string>>(cacheDependency, cacheValue.Value, cachePolicy.CacheTimeout.Value);
+                        _easyCachingProvider.Set(cacheDependency, cacheValue.Value, cachePolicy.CacheTimeout.Value);
                     }
                 }
-              ((IEasyCachingProviderBase)_easyCachingProvider).Set<EFCachedData>(keyHash, value, cachePolicy.CacheTimeout.Value);
-            }));
+                _easyCachingProvider.Set(keyHash, value, cachePolicy.CacheTimeout.Value);
+            });
         }
 
         private void EasyCacheClearAllCachedEntries()
         {
             IEasyCachingProvider _easyCachingProvider = _serviceProvider.GetRequiredService<IEasyCachingProvider>();
-            _readerWriterLockProvider.TryWriteLocked((Action)(() => _easyCachingProvider.Flush()));
+            _readerWriterLockProvider.TryWriteLocked(() => _easyCachingProvider.Flush());
         }
 
         private void EasyCacheInvalidateCacheDependencies(EFCacheKey cacheKey)
         {
             IEasyCachingProvider _easyCachingProvider = _serviceProvider.GetRequiredService<IEasyCachingProvider>();
-            _readerWriterLockProvider.TryWriteLocked((Action)(() =>
+            _readerWriterLockProvider.TryWriteLocked(() =>
             {
                 foreach (string cacheDependency in (IEnumerable<string>)cacheKey.CacheDependencies)
                 {
                     if (!string.IsNullOrWhiteSpace(cacheDependency))
                     {
                         clearDependencyValues(cacheDependency);
-                        ((IEasyCachingProviderBase)_easyCachingProvider).Remove(cacheDependency);
+                        _easyCachingProvider.Remove(cacheDependency);
                     }
                 }
-            }));
+            });
         }
 
         private void clearDependencyValues(string rootCacheKey)
         {
             IEasyCachingProvider requiredService = _serviceProvider.GetRequiredService<IEasyCachingProvider>();
-            CacheValue<HashSet<string>> cacheValue = ((IEasyCachingProviderBase)requiredService).Get<HashSet<string>>(rootCacheKey);
+            CacheValue<HashSet<string>> cacheValue = requiredService.Get<HashSet<string>>(rootCacheKey);
             if (cacheValue.IsNull)
                 return;
             foreach (string str in cacheValue.Value)
-                ((IEasyCachingProviderBase)requiredService).Remove(str);
+                requiredService.Remove(str);
         }
 
         private void RemoveEasyCache(EFCacheKey cacheKey)
         {
             IEasyCachingProvider _easyCachingProvider = _serviceProvider.GetRequiredService<IEasyCachingProvider>();
-            _readerWriterLockProvider.TryReadLocked((Action)(() => ((IEasyCachingProviderBase)_easyCachingProvider).Remove(cacheKey.KeyHash)));
+            _readerWriterLockProvider.TryReadLocked(() => _easyCachingProvider.Remove(cacheKey.KeyHash));
         }
 
         private EFCachedData DistributedCacheGetValue(
@@ -237,7 +236,7 @@ namespace Common.DataAccess.Repository.Cache
           EFCachePolicy cachePolicy)
         {
             IDistributedCache _distributedCache = _serviceProvider.GetRequiredService<IDistributedCache>();
-            return _readerWriterLockProvider.TryReadLocked<EFCachedData>((Func<EFCachedData>)(() => _distributedCache.Get(cacheKey.KeyHash).FromByteArray<EFCachedData>()));
+            return _readerWriterLockProvider.TryReadLocked(() => _distributedCache.Get(cacheKey.KeyHash).FromByteArray<EFCachedData>());
         }
 
         private void DistributedCacheInsertValue(
@@ -246,7 +245,7 @@ namespace Common.DataAccess.Repository.Cache
           EFCachePolicy cachePolicy)
         {
             IDistributedCache _distributedCache = _serviceProvider.GetRequiredService<IDistributedCache>();
-            _readerWriterLockProvider.TryWriteLocked((Action)(() =>
+            _readerWriterLockProvider.TryWriteLocked(() =>
             {
                 if (value == null)
                     value = new EFCachedData() { IsNull = true };
@@ -269,7 +268,7 @@ namespace Common.DataAccess.Repository.Cache
                     }
                 }
                 _distributedCache.Set(keyHash, value.ToByteArray(), options);
-            }));
+            });
         }
 
         private void DistributedCacheClearAllCachedEntries()
@@ -279,7 +278,7 @@ namespace Common.DataAccess.Repository.Cache
         private void RemoveDistributedCache(EFCacheKey cacheKey)
         {
             IDistributedCache _distributedCache = _serviceProvider.GetRequiredService<IDistributedCache>();
-            _readerWriterLockProvider.TryReadLocked((Action)(() => _distributedCache.Remove(cacheKey.KeyHash)));
+            _readerWriterLockProvider.TryReadLocked(() => _distributedCache.Remove(cacheKey.KeyHash));
         }
     }
 }

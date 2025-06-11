@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Options;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     A custom cache key prefix provider for EF queries.

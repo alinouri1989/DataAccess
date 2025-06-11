@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     Provides information about the currently executing query

@@ -4,7 +4,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     TableRows structure

@@ -1,4 +1,3 @@
-using EFCoreSecondLevelCacheInterceptor;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 

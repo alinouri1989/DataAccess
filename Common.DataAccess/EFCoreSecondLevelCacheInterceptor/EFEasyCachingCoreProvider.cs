@@ -6,7 +6,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     Using ICacheManager as a cache service.

@@ -3,7 +3,7 @@ using System;
 using System.IO.Hashing;
 using System.Text;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 /// <inheritdoc />
 public class XxHash64Unsafe : IEFHashProvider
 {
@@ -35,7 +35,7 @@ public class XxHash64Unsafe : IEFHashProvider
 using System;
 using System.Runtime.CompilerServices;
 
-namespace EFCoreSecondLevelCacheInterceptor;
+namespace Common.DataAccess.EFCoreSecondLevelCacheInterceptor;
 
 /// <summary>
 ///     xxHash is an extremely fast non-cryptographic Hash algorithm, working at speeds close to RAM limits.
