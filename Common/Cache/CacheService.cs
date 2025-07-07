@@ -4,7 +4,7 @@ using StackExchange.Redis;
 using System;
 using System.Text;
 using System.Threading.Tasks;
-
+namespace Common.Cache;
 public class CacheService : ICacheService
 {
     private readonly IDatabase _redisCache;
