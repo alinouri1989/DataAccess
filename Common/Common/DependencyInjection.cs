@@ -1,6 +1,8 @@
 ﻿using Common.Cache;
+using Common.Export;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
 using StackExchange.Redis.Extensions.Core.Configuration;
 using System;
@@ -55,6 +57,16 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<ICacheService, CacheService>();
         }
 
+        public static void RegisterExport(this IHostApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<ICsvService, CsvService>();
+            builder.Services.AddScoped<IExcelService, ExcelService>();
+            builder.Services.AddScoped<IHtmlService, HtmlService>();
+            builder.Services.AddScoped<IJsonService, JsonService>();
+            builder.Services.AddScoped<IXmlService, XmlService>();
+            builder.Services.AddScoped<IYamlService, YamlService>();
+            builder.Services.AddScoped(typeof(IExportService<>), typeof(ExportService<>));
+        }
 
         public static IServiceCollection RegisterCommon(
           this IServiceCollection services)
