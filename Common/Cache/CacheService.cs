@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
@@ -7,21 +8,33 @@ using System.Threading.Tasks;
 namespace Common.Cache;
 public class CacheService : ICacheService
 {
+    #region Fields
     private readonly IDatabase _redisCache;
     private readonly IMemoryCache _memoryCache;
     private readonly IConnectionMultiplexer _redisConnection;
-
+    private readonly IServiceProvider _serviceProvider;
     private static readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
     {
         ReferenceLoopHandling = ReferenceLoopHandling.Ignore
     };
+    #endregion
 
-    public CacheService(IConnectionMultiplexer redisConnection, IMemoryCache memoryCache)
+    #region Ctor
+    public CacheService(IConnectionMultiplexer redisConnection, IServiceProvider serviceProvider)
     {
         _redisConnection = redisConnection;
         _redisCache = redisConnection.GetDatabase();
-        _memoryCache = memoryCache;
+        _serviceProvider = serviceProvider;
+        _memoryCache = _serviceProvider.GetRequiredService<IMemoryCache>();
     }
+
+    //public CacheService(IConnectionMultiplexer redisConnection, IMemoryCache memoryCache)
+    //{
+    //    _redisConnection = redisConnection;
+    //    _redisCache = redisConnection.GetDatabase();
+    //    _memoryCache = memoryCache;
+    //} 
+    #endregion
 
     #region Async Methods
 
@@ -40,9 +53,16 @@ public class CacheService : ICacheService
             // Redis failed; fall back to memory cache
         }
 
-        if (_memoryCache.TryGetValue(key, out T value))
+        try
         {
-            return value;
+            if (_memoryCache.TryGetValue(key, out byte[] value) 
+                && value != null && value.Length > 0)
+            {
+                return Deserialize<T>(value);
+            }
+        }
+        catch
+        {
         }
 
         return default;
@@ -58,7 +78,7 @@ public class CacheService : ICacheService
         catch
         {
             // Fallback to memory cache
-            _memoryCache.Set(key, value, expiration);
+            _memoryCache.Set(key, Serialize(value), expiration);
             return true;
         }
     }
