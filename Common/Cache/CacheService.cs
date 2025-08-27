@@ -16,26 +16,19 @@ public class CacheService : ICacheService
     private static readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
     {
         ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-    }; 
+    };
     #endregion
 
+    #region Ctor
     public CacheService(IConnectionMultiplexer redisConnection, IMemoryCache memoryCache)
     {
         _redisConnection = redisConnection;
         _redisCache = redisConnection.GetDatabase();
         _memoryCache = memoryCache;
-    }
-
-    //public CacheService(IConnectionMultiplexer redisConnection, IMemoryCache memoryCache)
-    //{
-    //    _redisConnection = redisConnection;
-    //    _redisCache = redisConnection.GetDatabase();
-    //    _memoryCache = memoryCache;
-    //} 
+    } 
     #endregion
 
     #region Async Methods
-
     public async Task<T> GetAsync<T>(string key)
     {
         try
@@ -51,9 +44,16 @@ public class CacheService : ICacheService
             // Redis failed; fall back to memory cache
         }
 
-        if (_memoryCache.TryGetValue(key, out T value))
+        try
         {
-            return value;
+            if (_memoryCache.TryGetValue(key, out byte[] value)
+                && value != null && value.Length > 0)
+            {
+                return Deserialize<T>(value);
+            }
+        }
+        catch
+        {
         }
 
         return default;
@@ -105,11 +105,9 @@ public class CacheService : ICacheService
             return _memoryCache.TryGetValue(key, out _);
         }
     }
-
     #endregion
 
     #region Sync Methods
-
     public T Get<T>(string key)
     {
         try
@@ -152,7 +150,7 @@ public class CacheService : ICacheService
 
     public object Remove(string key)
     {
-        bool deletedFromRedis = false;
+        var deletedFromRedis = false;
         try
         {
             deletedFromRedis = _redisCache.KeyDelete(key);
@@ -181,11 +179,9 @@ public class CacheService : ICacheService
             return _memoryCache.TryGetValue(key, out _);
         }
     }
-
     #endregion
 
     #region Helpers
-
     private byte[] Serialize<T>(T value)
     {
         var serializedValue = JsonConvert.SerializeObject(value, _serializerSettings);
@@ -197,7 +193,6 @@ public class CacheService : ICacheService
         var serializedValue = Encoding.UTF8.GetString(value);
         return JsonConvert.DeserializeObject<T>(serializedValue, _serializerSettings);
     }
-
     #endregion
 }
 
