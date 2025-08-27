@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
@@ -11,20 +12,26 @@ public class CacheService : ICacheService
     private readonly IDatabase _redisCache;
     private readonly IMemoryCache _memoryCache;
     private readonly IConnectionMultiplexer _redisConnection;
-
+    private readonly IServiceProvider _serviceProvider;
     private static readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
     {
         ReferenceLoopHandling = ReferenceLoopHandling.Ignore
     }; 
     #endregion
 
-    #region Ctor
     public CacheService(IConnectionMultiplexer redisConnection, IMemoryCache memoryCache)
     {
         _redisConnection = redisConnection;
         _redisCache = redisConnection.GetDatabase();
         _memoryCache = memoryCache;
-    } 
+    }
+
+    //public CacheService(IConnectionMultiplexer redisConnection, IMemoryCache memoryCache)
+    //{
+    //    _redisConnection = redisConnection;
+    //    _redisCache = redisConnection.GetDatabase();
+    //    _memoryCache = memoryCache;
+    //} 
     #endregion
 
     #region Async Methods
@@ -44,16 +51,9 @@ public class CacheService : ICacheService
             // Redis failed; fall back to memory cache
         }
 
-        try
+        if (_memoryCache.TryGetValue(key, out T value))
         {
-            if (_memoryCache.TryGetValue(key, out byte[] value)
-                && value != null && value.Length > 0)
-            {
-                return Deserialize<T>(value);
-            }
-        }
-        catch
-        {
+            return value;
         }
 
         return default;
