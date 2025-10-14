@@ -1,5 +1,4 @@
-﻿using Common.Cache;
-using Common.Export;
+﻿using Common.Export;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -29,32 +28,6 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             return services;
-        }
-
-        public static IServiceCollection AddMemoryCacheIfNotExist(this IServiceCollection services)
-        {
-            if (!services.Any(sd => sd.ServiceType == typeof(IMemoryCache)))
-            {
-                services.AddMemoryCache();
-            }
-            return services;
-        }
-        public static void RegisterCache(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.Configure<RedisConfiguration>(configuration.GetSection("Redis"));
-            var rdc = configuration.GetSection("Redis").Get<RedisConfiguration>();
-            services.AddSingleton<IConnectionMultiplexer>(option =>
-                           ConnectionMultiplexer.Connect(new ConfigurationOptions
-                           {
-                               EndPoints = { $"{rdc.Hosts.FirstOrDefault().Host}:{rdc.Hosts.FirstOrDefault().Port}" },
-                               AbortOnConnectFail = rdc.AbortOnConnectFail,
-                               Ssl = rdc.Ssl,
-                               Password = rdc.Password,
-                               ConnectRetry = rdc.ConnectRetry.HasValue ? rdc.ConnectRetry.Value : 2,
-                               SyncTimeout = rdc.SyncTimeout
-                           }));
-            services.AddMemoryCacheIfNotExist();
-            services.AddSingleton<ICacheService, CacheService>();
         }
 
         public static void RegisterExport(this IHostApplicationBuilder builder)
