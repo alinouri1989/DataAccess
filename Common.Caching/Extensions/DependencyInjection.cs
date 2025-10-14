@@ -1,5 +1,6 @@
 ﻿using Common.Caching.Models;
 using Common.Export;
+using Common.Security.Crypto;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -65,26 +66,9 @@ namespace Common.Caching
                            }));
 
             services.AddMemoryCacheIfNotExist();
+            services.AddSingleton<IEncryptor, Encryptor>();
+            services.AddSingleton<IRSACryptoService, RSACryptoService>();
             services.AddSingleton<ICacheService, CacheService>();
-        }
-
-        public static IServiceCollection RegisterWithAttribute(
-          this IServiceCollection services)
-        {
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            return ServiceCollectionExtensions.Scan(services,
-                scan => scan
-                .FromAssemblies(assemblies)
-                .AddClasses(c => c.WithAttribute<SingletonServiceAttribute>())
-                .AsImplementedInterfaces()
-                .WithSingletonLifetime()
-                .AddClasses(c => c.WithAttribute<TransientServiceAttribute>())
-                .AsImplementedInterfaces()
-                .WithTransientLifetime()
-                .AddClasses(c => c.WithAttribute<ScopedServiceAttribute>())
-                .AsMatchingInterface()
-                .WithScopedLifetime()
-                );
         }
     }
 }

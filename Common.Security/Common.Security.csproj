@@ -8,7 +8,7 @@
 		<Product>San.Common.Security</Product>
 		<PackageId>San.Common.Security</PackageId>
 		<Nullable>disable</Nullable>
-		<Version>3.9.8</Version>
+		<Version>3.9.9-preview.1</Version>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 	<ItemGroup>
