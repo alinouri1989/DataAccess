@@ -16,18 +16,19 @@ public class CacheService : ICacheService
     private readonly IDatabase _redisCache;
     private readonly IMemoryCache _memoryCache;
     private readonly IConnectionMultiplexer _redisConnection;
-    private readonly IServiceProvider _serviceProvider;
     private readonly IEncryptor _encryptor;
     private readonly bool _enableTtlRetrieval;
-    private readonly ConcurrentDictionary<string, DateTime> _expirationTracker; // برای MemoryCache
+    // دیکشنری ترد_سیف برای نگهداری زمان انقضای کلیدهای مموری_کش
+    private readonly ConcurrentDictionary<string, DateTime> _memoryExpirationTracker;
     private static readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
     {
         ReferenceLoopHandling = ReferenceLoopHandling.Ignore
     };
     #endregion
 
-    #region Ctor
-    public CacheService(IConnectionMultiplexer redisConnection,
+    #region Constructor
+    public CacheService(
+        IConnectionMultiplexer redisConnection,
         IMemoryCache memoryCache,
         IEncryptor encryptor,
         IOptions<CacheSettings> cacheSettings = null)
@@ -36,12 +37,17 @@ public class CacheService : ICacheService
         _redisCache = redisConnection.GetDatabase();
         _memoryCache = memoryCache;
         _encryptor = encryptor;
-        _enableTtlRetrieval = cacheSettings != null ? cacheSettings.Value.EnableTtlRetrieval : false;
-        _expirationTracker = new ConcurrentDictionary<string, DateTime>();
+        _enableTtlRetrieval = cacheSettings?.Value?.EnableTtlRetrieval ?? false;
+        _memoryExpirationTracker = new ConcurrentDictionary<string, DateTime>();
     }
     #endregion
 
     #region Get
+
+    /// <summary>
+    /// دریافت مقدار از کش
+    /// ابتدا از ردیس، در صورت عدم دسترسی از مموری_کش
+    /// </summary>
     public async Task<T> GetAsync<T>(string key)
     {
         try
@@ -54,23 +60,28 @@ public class CacheService : ICacheService
         }
         catch
         {
-            // Redis failed; fall back to memory cache
+            // Redis در دسترس نیست، به MemoryCache می‌رویم
         }
 
         try
         {
-            if (_memoryCache.TryGetValue(key, out byte[] value)
-                && value != null && value.Length > 0)
+            if (_memoryCache.TryGetValue(key, out byte[] value) && value != null && value.Length > 0)
             {
                 return Deserialize<T>(value);
             }
         }
         catch
         {
+            // خطا در دریافت از MemoryCache
         }
 
+        // کلید یافت نشد
         return default;
     }
+
+    /// <summary>
+    /// دریافت مقدار از کش 
+    /// </summary>
     public T Get<T>(string key)
     {
         try
@@ -81,28 +92,34 @@ public class CacheService : ICacheService
                 return Deserialize<T>(redisValue);
             }
         }
-        catch { }
+        catch
+        {
+            // Redis در دسترس نیست
+        }
 
         try
         {
-            if (_memoryCache.TryGetValue(key, out byte[] value)
-                && value != null && value.Length > 0)
+            if (_memoryCache.TryGetValue(key, out byte[] value) && value != null && value.Length > 0)
             {
                 return Deserialize<T>(value);
             }
         }
         catch
         {
+            // خطا در دریافت
         }
 
         return default;
     }
+
+    /// <summary>
+    /// دریافت و رمزگشایی مقدار از کش
+    /// </summary>
     public async Task<T> CipherGetAsync<T>(string key, string password)
     {
-        // بازیابی داده رمزشده از کش
+        // دریافت داده رمزشده
         var encryptedData = await GetAsync<string>(key);
 
-        // بررسی وجود داده
         if (string.IsNullOrEmpty(encryptedData))
         {
             return default;
@@ -110,32 +127,249 @@ public class CacheService : ICacheService
 
         try
         {
-            // رمزگشایی داده
+            // رمزگشایی
             var decryptedJson = _encryptor.Decrypt(encryptedData, password);
             return JsonConvert.DeserializeObject<T>(decryptedJson, _serializerSettings);
         }
         catch
         {
-            // در صورت خطا در رمزگشایی
+            // خطا در رمزگشایی
             return default;
         }
     }
+
     #endregion
 
-    #region TTL (Time To Live)
+    #region Set
+
+    /// <summary>
+    /// ذخیره مقدار در کش با زمان انقضا 
+    /// ابتدا در ردیس، در صورت عدم دسترسی در مموری_کش
+    /// </summary>
+    public async Task<bool> SetAsync<T>(string key, T value, TimeSpan expiration)
+    {
+        try
+        {
+            var serializedData = Serialize(value);
+
+            var result = await _redisCache.StringSetAsync(key, serializedData, expiration);
+            return result;
+        }
+        catch
+        {
+            try
+            {
+                SetInMemoryCache(key, Serialize(value), expiration);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// ذخیره مقدار در کش با زمان انقضا
+    /// </summary>
+    public bool Set<T>(string key, T value, TimeSpan expiration)
+    {
+        try
+        {
+            var serializedData = Serialize(value);
+            return _redisCache.StringSet(key, serializedData, expiration);
+        }
+        catch
+        {
+            // فالبک به مموری_کش
+            try
+            {
+                SetInMemoryCache(key, Serialize(value), expiration);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// رمزنگاری و ذخیره مقدار در کش
+    /// </summary>
+    public async Task<bool> CipherSetAsync<T>(string key, T value, string password, TimeSpan expiration)
+    {
+        try
+        {
+            // سریالایز
+            var json = JsonConvert.SerializeObject(value, _serializerSettings);
+
+            // رمزنگاری
+            var encryptedData = _encryptor.Encrypt(json, password);
+
+            // ذخیره
+            return await SetAsync(key, encryptedData, expiration);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// ذخیره در مموری_کش با ردیابی زمان انقضا
+    /// </summary>
+    private void SetInMemoryCache(string key, byte[] value, TimeSpan expiration)
+    {
+        // تنظیمات ذخیره‌سازی
+        var cacheOptions = new MemoryCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = expiration
+        };
+
+        // ثبت فالبک برای حذف خودکار از ترکر
+        cacheOptions.RegisterPostEvictionCallback((evictedKey, evictedValue, reason, state) =>
+        {
+            if (evictedKey != null)
+            {
+                // حذف از ترکر وقتی از مموری_کش حذف شد
+                _memoryExpirationTracker.TryRemove(evictedKey.ToString(), out _);
+            }
+        });
+
+        // ذخیره در مموری_کش
+        _memoryCache.Set(key, value, cacheOptions);
+
+        // ذخیره زمان انقضا در ترکر فقط اگر فعال باشد
+        if (_enableTtlRetrieval)
+        {
+            var expirationTime = DateTime.UtcNow.Add(expiration);
+            _memoryExpirationTracker.AddOrUpdate(
+                key,
+                expirationTime,
+                (k, oldValue) => expirationTime
+            );
+        }
+    }
+
+    #endregion
+
+    #region Remove
+
+    /// <summary>
+    /// حذف کلید از کش
+    /// </summary>
+    public async Task<bool> RemoveAsync(string key)
+    {
+        bool deletedFromRedis = false;
+
+        try
+        {
+            deletedFromRedis = await _redisCache.KeyDeleteAsync(key);
+        }
+        catch
+        {
+        }
+
+        bool deletedFromMemory = false;
+
+        try
+        {
+            _memoryCache.Remove(key);
+            _memoryExpirationTracker.TryRemove(key, out _);
+            deletedFromMemory = true;
+        }
+        catch
+        {
+        }
+
+        return deletedFromRedis || deletedFromMemory;
+    }
+
+    /// <summary>
+    /// حذف کلید از کش
+    /// </summary>
+    public bool Remove(string key)
+    {
+        bool deletedFromRedis = false;
+
+        try
+        {
+            deletedFromRedis = _redisCache.KeyDelete(key);
+        }
+        catch
+        {
+        }
+
+        try
+        {
+            _memoryCache.Remove(key);
+            _memoryExpirationTracker.TryRemove(key, out _);
+            return true;
+        }
+        catch
+        {
+            return deletedFromRedis;
+        }
+    }
+
+    #endregion
+
+    #region Exist
+
+    /// <summary>
+    /// بررسی وجود کلید در کش
+    /// </summary>
+    public async Task<bool> ExistAsync(string key)
+    {
+        // بررسی در Redis
+        try
+        {
+            return await _redisCache.KeyExistsAsync(key);
+        }
+        catch
+        {
+            // اگر ردیس در دسترس نبود، مموری_کش را بررسی می‌کنیم
+            return _memoryCache.TryGetValue(key, out _);
+        }
+    }
+
+    /// <summary>
+    /// بررسی وجود کلید در کش 
+    /// </summary>
+    public bool Exist(string key)
+    {
+        try
+        {
+            return _redisCache.KeyExists(key);
+        }
+        catch
+        {
+            return _memoryCache.TryGetValue(key, out _);
+        }
+    }
+
+    #endregion
+
+    #region TTL
+
     /// <summary>
     /// دریافت زمان انقضای باقیمانده کلید
     /// </summary>
     /// <param name="key">کلید مورد نظر</param>
-    /// <returns>زمان باقیمانده تا انقضا یا null در صورت عدم وجود</returns>
+    /// <returns>
+    /// زمان باقیمانده تا انقضا
+    /// null اگر کلید وجود نداشته باشد یا قابلیت غیرفعال باشد
+    /// </returns>
     public async Task<TimeSpan?> GetTtlAsync(string key)
     {
+        // بررسی فعال بودن قابلیت
         if (!_enableTtlRetrieval)
         {
-            throw new InvalidOperationException("TTL retrieval is disabled. Enable it in CacheSettings.");
+            return null;
         }
 
-        // بررسی Redis
+        // ابتدا Redis را بررسی می‌کنیم
         try
         {
             var ttl = await _redisCache.KeyTimeToLiveAsync(key);
@@ -146,15 +380,19 @@ public class CacheService : ICacheService
         }
         catch
         {
-            // Redis failed, continue to memory cache
+            // Redis در دسترس نیست
         }
 
-        // بررسی MemoryCache
+        // بررسی مموری_کش
         if (_memoryCache.TryGetValue(key, out _))
         {
-            if (_expirationTracker.TryGetValue(key, out DateTime expirationTime))
+            // دریافت زمان انقضا از ترکر
+            if (_memoryExpirationTracker.TryGetValue(key, out DateTime expirationTime))
             {
+                // محاسبه زمان باقیمانده
                 var remainingTime = expirationTime - DateTime.UtcNow;
+
+                // اگر مثبت بود هنوز منقضی نشده
                 return remainingTime > TimeSpan.Zero ? remainingTime : null;
             }
         }
@@ -163,13 +401,13 @@ public class CacheService : ICacheService
     }
 
     /// <summary>
-    /// دریافت زمان انقضای باقیمانده کلید (نسخه همزمان)
+    /// دریافت زمان انقضای باقیمانده کلید (sync)
     /// </summary>
     public TimeSpan? GetTtl(string key)
     {
         if (!_enableTtlRetrieval)
         {
-            throw new InvalidOperationException("TTL retrieval is disabled. Enable it in CacheSettings.");
+            return null;
         }
 
         // بررسی Redis
@@ -183,13 +421,13 @@ public class CacheService : ICacheService
         }
         catch
         {
-            // Redis failed, continue to memory cache
+            // Redis در دسترس نیست
         }
 
         // بررسی MemoryCache
         if (_memoryCache.TryGetValue(key, out _))
         {
-            if (_expirationTracker.TryGetValue(key, out DateTime expirationTime))
+            if (_memoryExpirationTracker.TryGetValue(key, out DateTime expirationTime))
             {
                 var remainingTime = expirationTime - DateTime.UtcNow;
                 return remainingTime > TimeSpan.Zero ? remainingTime : null;
@@ -198,155 +436,27 @@ public class CacheService : ICacheService
 
         return null;
     }
+
     #endregion
 
-    #region Set
-    public async Task<bool> SetAsync<T>(string key, T value, TimeSpan expiration)
-    {
-        try
-        {
-            var result = await _redisCache.StringSetAsync(key, Serialize(value), expiration);
-            return result;
-        }
-        catch
-        {
-            // Fallback to memory cache
-            //_memoryCache.Set(key, Serialize(value), expiration);
-            SetInMemoryCache(key, Serialize(value), expiration);
-            return true;
-        }
-    }
-    public bool Set<T>(string key, T value, TimeSpan expiration)
-    {
-        try
-        {
-            return _redisCache.StringSet(key, Serialize(value), expiration);
-        }
-        catch
-        {
-            //_memoryCache.Set(key, Serialize(value), expiration);
-            SetInMemoryCache(key, Serialize(value), expiration);
-            return true;
-        }
-    }
-    public async Task<bool> CipherSetAsync<T>(string key, T value, string password, TimeSpan expiration)
-    {
-        try
-        {
-            // تبدیل به JSON و رمزنگاری
-            var json = JsonConvert.SerializeObject(value, _serializerSettings);
-            var encryptedData = _encryptor.Encrypt(json, password);
+    #region Helper Methods
 
-            // ذخیره داده رمزشده
-            return await SetAsync(key, encryptedData, expiration);
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    private void SetInMemoryCache(string key, byte[] value, TimeSpan expiration)
-    {
-        var options = new MemoryCacheEntryOptions
-        {
-            AbsoluteExpirationRelativeToNow = expiration
-        };
-
-        // ثبت callback برای حذف از tracker
-        options.RegisterPostEvictionCallback((evictedKey, evictedValue, reason, state) =>
-        {
-            _expirationTracker.TryRemove(evictedKey.ToString(), out _);
-        });
-
-        _memoryCache.Set(key, value, options);
-
-        // ذخیره زمان انقضا در tracker
-        if (_enableTtlRetrieval)
-        {
-            _expirationTracker[key] = DateTime.UtcNow.Add(expiration);
-        }
-    }
-    #endregion
-
-    #region Remove
-    public async Task<bool> RemoveAsync(string key)
-    {
-        bool deletedFromRedis = false;
-        try
-        {
-            deletedFromRedis = await _redisCache.KeyDeleteAsync(key);
-        }
-        catch { /* ignore */ }
-
-        var deletedFromMemory = false;
-        try
-        {
-            _memoryCache.Remove(key);
-            deletedFromMemory = true;
-        }
-        catch { /* ignore */ }
-
-        return deletedFromRedis || deletedFromMemory;
-    }
-    public object Remove(string key)
-    {
-        var deletedFromRedis = false;
-        try
-        {
-            deletedFromRedis = _redisCache.KeyDelete(key);
-        }
-        catch { }
-
-        try
-        {
-            _memoryCache.Remove(key);
-            return true;
-        }
-        catch
-        {
-            return deletedFromRedis;
-        }
-    }
-    #endregion
-
-    #region Exist
-    public async Task<bool> ExistAsync(string key)
-    {
-        try
-        {
-            return await _redisCache.KeyExistsAsync(key);
-        }
-        catch
-        {
-            return _memoryCache.TryGetValue(key, out _);
-        }
-    }
-
-    public bool Exist(string key)
-    {
-        try
-        {
-            return _redisCache.KeyExists(key);
-        }
-        catch
-        {
-            return _memoryCache.TryGetValue(key, out _);
-        }
-    }
-    #endregion
-
-    #region Helpers
+    /// <summary>
+    /// سریالایز object به byte array
+    /// </summary>
     private byte[] Serialize<T>(T value)
     {
-        var serializedValue = JsonConvert.SerializeObject(value, _serializerSettings);
-        return Encoding.UTF8.GetBytes(serializedValue);
+        var json = JsonConvert.SerializeObject(value, _serializerSettings);
+        return Encoding.UTF8.GetBytes(json);
     }
 
+    /// <summary>
+    /// دی‌سریالایز byte array به object
+    /// </summary>
     private T Deserialize<T>(byte[] value)
     {
-        var serializedValue = Encoding.UTF8.GetString(value);
-        return JsonConvert.DeserializeObject<T>(serializedValue, _serializerSettings);
+        var json = Encoding.UTF8.GetString(value);
+        return JsonConvert.DeserializeObject<T>(json, _serializerSettings);
     }
     #endregion
 }
@@ -367,7 +477,7 @@ public interface ICacheService
 
     #region Remove
     Task<bool> RemoveAsync(string key);
-    object Remove(string key);
+    bool Remove(string key);
     #endregion
 
     #region Exist
