@@ -7,7 +7,7 @@
 		<Product>San.Common</Product>
 		<PackageId>San.Common</PackageId>
 		<Nullable>disable</Nullable>
-		<Version>4.0.2-preview.1</Version>
+		<Version>4.0.2-preview.2</Version>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 	<ItemGroup>
