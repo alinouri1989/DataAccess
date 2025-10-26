@@ -22,14 +22,14 @@ namespace Common.Export
             _yamlService = yamlService;
         }
 
-        public async Task<byte[]> ExportToExcel(List<TModel> registers)
+        public async Task<byte[]> ExportToExcel(List<TModel> registers, bool rightToLeft = false, bool addRowNumber = false)
         {
-            return await _excelService.Write(registers);
+            return await _excelService.Write(registers, rightToLeft,addRowNumber);
         }
 
         public byte[] ExportToCsv(List<TModel> registers)
         {
-            return _csvService.Write(registers);
+            return _csvService.Write(registers);    
         }
 
         public byte[] ExportToHtml(List<TModel> registers)
@@ -54,7 +54,7 @@ namespace Common.Export
     }
     public interface IExportService<TModel> where TModel : class
     {
-        Task<byte[]> ExportToExcel(List<TModel> registers);
+        Task<byte[]> ExportToExcel(List<TModel> registers, bool rightToLeft = false, bool addRowNumber = false);
 
         byte[] ExportToCsv(List<TModel> registers);
 
